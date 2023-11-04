@@ -47,6 +47,22 @@ void ATank::BeginPlay()
 void ATank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if (PlayerController)
+	{
+		const float SphereRadius = 25.f;
+		const int SphereSegments = 12;
+
+		FHitResult HitResult;
+
+		PlayerController->GetHitResultUnderCursor(ECC_Visibility, false, HitResult);
+
+		if (bIsDebugMode)
+			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, SphereRadius, SphereSegments, FColor::Red);
+
+		LookAtTarget(HitResult.ImpactPoint, TurretRotationSpeed);
+
+	}
 }
 
 // Called to bind functionality to input

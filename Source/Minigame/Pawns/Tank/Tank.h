@@ -11,7 +11,7 @@ class MINIGAME_API ATank : public ABaseTower
 {
 	GENERATED_BODY()
 
-#pragma region Properties
+	#pragma region Properties
 
 	//Camera Config
 	UPROPERTY(EditAnywhere, Category="Camera Config")
@@ -26,9 +26,7 @@ class MINIGAME_API ATank : public ABaseTower
 
 	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Rotation Speed"))
 	float RotationSpeed = 100.f;
-
-	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Turrent Roation Speed"))
-	float TurretRotationSpeed = 100.f;
+	
 
 	//Input Config - Input actions and mapping context
 	UPROPERTY(EditAnywhere)
@@ -47,10 +45,14 @@ class MINIGAME_API ATank : public ABaseTower
 	class APlayerController* PlayerController;
 	
 	//GameMode ref
+
+	//Debug Mode
+	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
+	bool bIsDebugMode = false;
+
+	#pragma  endregion
 	
-#pragma  endregion
-	
-#pragma region Actions
+	#pragma region Actions
 	
 public:
 	// Sets default values for this pawn's properties
@@ -73,6 +75,6 @@ public:
 
 	void ShootHandler(const struct FInputActionValue& Value);
 	
-#pragma endregion
+	#pragma endregion
 
 };

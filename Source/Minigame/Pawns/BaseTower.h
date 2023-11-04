@@ -26,6 +26,9 @@ protected:
 	UPROPERTY(EditAnywhere, Category="Properties")
 	class USphereComponent* CollisionSphere;
 
+	UPROPERTY(EditAnywhere, Category="Properties", meta=(DisplayName="Turrent Roation Speed"))
+	float TurretRotationSpeed = 10.f;
+
 #pragma endregion
 
 
@@ -40,6 +43,8 @@ protected:
 	virtual void BeginPlay() override;
 
 	void Shoot();
+
+	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
 	
 public:
 	// Called every frame

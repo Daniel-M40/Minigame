@@ -4,6 +4,7 @@
 #include "BaseTower.h"
 
 #include "Components/SphereComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 // Sets default values
@@ -36,6 +37,21 @@ void ABaseTower::BeginPlay()
 void ABaseTower::Shoot()
 {
 	//Spawn projectile here
+}
+
+void ABaseTower::LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed)
+{
+	//Get target location Mouse location - Current Location
+	const FVector ToTarget = LookAtTarget - BaseTurretMesh->GetComponentLocation();
+
+	const FRotator LookAtRotation = FRotator(0.f, ToTarget.Rotation().Yaw, 0.f);
+
+	//Update Yaw component for the turret mesh
+	BaseTurretMesh->SetWorldRotation(
+		FMath::RInterpTo(BaseTurretMesh->GetComponentRotation(),
+			LookAtRotation,
+			UGameplayStatics::GetWorldDeltaSeconds(this),
+			RotateSpeed));
 }
 
 // Called every frame
