@@ -16,23 +16,31 @@ class MINIGAME_API ABasePawn : public APawn
 #pragma region Properties
 
 protected:
-	UPROPERTY(EditAnywhere, Category="Properties")
+	UPROPERTY(EditAnywhere, Category="Mesh")
 	class UStaticMeshComponent* BaseTurretMesh;
 
-	UPROPERTY(EditAnywhere, Category="Properties")
+	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* BaseTowerMesh;
 
-	UPROPERTY(EditAnywhere, Category="Properties")
+	UPROPERTY(EditAnywhere, Category="Projectile")
 	class USceneComponent* ProjectileSpawnPoint;
 
-	UPROPERTY(EditAnywhere, Category="Properties")
+	UPROPERTY(EditAnywhere, Category="Projectile")
+	TSubclassOf<AProjectile> ProjectileClass;
+
+	UPROPERTY(EditAnywhere, Category="Collision")
 	class USphereComponent* CollisionSphere;
 
-	UPROPERTY(EditAnywhere, Category="Properties", meta=(DisplayName="Turrent Roation Speed"))
+	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
 	float TurretRotationSpeed = 10.f;
+
+	UPROPERTY(EditAnywhere, Category="Particles", meta=(DisplayName="Death particles"))
+	class UParticleSystem* DeathParticles;
+
+	UPROPERTY(EditAnywhere, Category="Sound")
+	class USoundBase* DeathSound;
 	
-	UPROPERTY(EditAnywhere, Category="Properties")
-	TSubclassOf<AProjectile> ProjectileClass;
+	class AMinigameGameModeBase* GameModeRef;
 	
 #pragma endregion
 
@@ -50,6 +58,8 @@ protected:
 	void Shoot();
 
 	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
+
+	virtual void HandleDestruction();
 
 public:
 	// Called every frame

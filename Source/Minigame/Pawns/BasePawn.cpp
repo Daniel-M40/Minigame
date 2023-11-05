@@ -71,6 +71,18 @@ void ABasePawn::LookAtTarget(const FVector& LookAtTarget, const float RotateSpee
 			RotateSpeed));
 }
 
+void ABasePawn::HandleDestruction()
+{
+	//Visual / Sound effects
+	if (DeathParticles)
+		UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticles, GetActorLocation(), GetActorRotation());
+	
+
+	if (DeathSound)
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+	
+}
+
 // Called every frame
 void ABasePawn::Tick(float DeltaTime)
 {

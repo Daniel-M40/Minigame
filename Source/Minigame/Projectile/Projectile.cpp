@@ -56,6 +56,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 {
 	const AActor* CurrentOwner = GetOwner();
 
+	//If the projectile collides with itself destroy it
 	if (!CurrentOwner)
 	{
 		Destroy();
@@ -75,6 +76,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 		if (HitSound)
 		{
+			//Play sound at location
 			UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation(), GetActorRotation());
 		}
 	}

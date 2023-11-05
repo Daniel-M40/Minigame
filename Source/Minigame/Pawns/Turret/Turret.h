@@ -11,6 +11,22 @@ class MINIGAME_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
 
+#pragma region Properties
+
+	class ATank* Tank;
+
+	UPROPERTY(EditAnywhere, Category = "Tower Config", meta = (DisplayName = "Turret Range", AllowPrivateAccess = "true"))
+	float mFireRange = 10.f;
+
+	UPROPERTY(EditAnywhere, Category = "Tower Config", meta = (DisplayName = "Turret Rotation Speed", AllowPrivateAccess = "true"))
+	float mTurretRotationSpeed = 10.f;
+
+	FTimerHandle TimerHandle;
+	float FireRate = 2.f;
+	
+#pragma endregion
+	
+	
 public:
 	// Sets default values for this pawn's properties
 	ATurret();
@@ -25,4 +41,10 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	virtual void HandleDestruction() override;
+
+	void CheckFireCondition();
+
+	bool IsActorInRange(const FVector& ActorLocation);
 };

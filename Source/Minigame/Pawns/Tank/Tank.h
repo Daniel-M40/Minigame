@@ -45,11 +45,16 @@ class MINIGAME_API ATank : public ABasePawn
 	class APlayerController* PlayerController;
 	
 	//GameMode ref
-
+	class AMinigameGameModeBase* GameModeRef;
+	
+	
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
 	bool bIsDebugMode = false;
 
+public:
+	bool bIsAlive = true;
+	
 	#pragma  endregion
 	
 	#pragma region Actions
@@ -76,5 +81,7 @@ public:
 	void ShootHandler(const struct FInputActionValue& Value);
 	
 	#pragma endregion
+
+	virtual void HandleDestruction() override;
 
 };
