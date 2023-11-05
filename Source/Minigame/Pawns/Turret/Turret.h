@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Minigame/Pawns/BaseTower.h"
+#include "Minigame/Pawns/BasePawn.h"
 #include "Turret.generated.h"
 
 UCLASS()
-class MINIGAME_API ATurret : public ABaseTower
+class MINIGAME_API ATurret : public ABasePawn
 {
 	GENERATED_BODY()
 

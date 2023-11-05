@@ -4,10 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "BaseTower.generated.h"
+#include "BasePawn.generated.h"
+
+class AProjectile;
 
 UCLASS()
-class MINIGAME_API ABaseTower : public APawn
+class MINIGAME_API ABasePawn : public APawn
 {
 	GENERATED_BODY()
 
@@ -28,7 +30,10 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Properties", meta=(DisplayName="Turrent Roation Speed"))
 	float TurretRotationSpeed = 10.f;
-
+	
+	UPROPERTY(EditAnywhere, Category="Properties")
+	TSubclassOf<AProjectile> ProjectileClass;
+	
 #pragma endregion
 
 
@@ -36,7 +41,7 @@ protected:
 	
 public:
 	// Sets default values for this pawn's properties
-	ABaseTower();
+	ABasePawn();
 
 protected:
 	// Called when the game starts or when spawned
@@ -45,7 +50,7 @@ protected:
 	void Shoot();
 
 	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
-	
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -53,5 +58,12 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	
 #pragma endregion
 };
