@@ -5,6 +5,8 @@
 
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Pawns/Tank/Tank.h"
+#include "Minigame/Pawns/Turret/Turret.h"
 #include "Particles/ParticleSystemComponent.h"
 
 
@@ -37,6 +39,7 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Add event for when the projectile hits something
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 
 	if (LaunchSound)
@@ -64,10 +67,13 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	}
 
 	AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
-
+	
 	//If the actor is not it self apply damage
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
 	{
+		//@@TODO Apply damage to current instigator
+		
+		
 		if (HitParticles)
 		{
 			//Spawn hit particles at the location and rotation
@@ -86,4 +92,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	
 
 }
+
+
 

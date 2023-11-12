@@ -45,7 +45,9 @@ class MINIGAME_API ATank : public ABasePawn
 	class APlayerController* PlayerController;
 	
 	//GameMode ref
-	class AMinigameGameModeBase* GameModeRef;
+	class ATimeTrailsGameMode* TimeTrailsGameMode;
+
+	class AWaveGameMode* WaveGameMode;
 	
 	
 	//Debug Mode
@@ -54,6 +56,7 @@ class MINIGAME_API ATank : public ABasePawn
 
 public:
 	bool bIsAlive = true;
+
 	
 	#pragma  endregion
 	
