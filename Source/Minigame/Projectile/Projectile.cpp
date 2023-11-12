@@ -58,7 +58,9 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& HitResult)
 {
 	const AActor* CurrentOwner = GetOwner();
-
+	ATurret* Tower = Cast<ATurret>(OtherActor);
+	ATank* Tank = Cast<ATank>(OtherActor);
+	
 	//If the projectile collides with itself destroy it
 	if (!CurrentOwner)
 	{
@@ -72,7 +74,10 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
 	{
 		//@@TODO Apply damage to current instigator
-		
+		if (Tower)
+		{
+			Tower->HandleDestruction();
+		}
 		
 		if (HitParticles)
 		{

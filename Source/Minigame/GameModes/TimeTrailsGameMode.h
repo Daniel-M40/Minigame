@@ -19,6 +19,11 @@ class MINIGAME_API ATimeTrailsGameMode : public AGameModeBase
 private:
 	FTimerHandle TimerHandle;
 
+	UPROPERTY(EditAnywhere, Category="", meta=(DisplayName=""))
+	TSubclassOf<AActor> TurretClass;
+
+	int TurretAmount = 0;
+
 public:
 	UPROPERTY(BlueprintReadOnly, Category="Time")
 	float Timer = 0.f;
@@ -31,6 +36,10 @@ public:
 	void BeginPlay() override;
 	
 	void IncreaseTimer();
+
+	void StopTimer();
+
+	void DecreaseTurretAmount();
 	
 	#pragma endregion
 	
