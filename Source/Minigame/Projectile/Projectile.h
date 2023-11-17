@@ -34,7 +34,7 @@ private:
 
 	//Damage dealt from projectile
 	UPROPERTY(EditAnywhere)
-	float Damage = 50.f;
+	float Damage = 10.f;
 
 
 	//Particles that are used for when the projectile has collided with an actor

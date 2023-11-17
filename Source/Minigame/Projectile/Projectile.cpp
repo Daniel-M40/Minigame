@@ -31,6 +31,8 @@ AProjectile::AProjectile()
 
 	TrailParticles = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Smoke trail particles"));
 	TrailParticles->SetupAttachment(ProjectileMesh);
+
+	ProjectileMesh->SetNotifyRigidBodyCollision(true);
 	
 }
 
@@ -58,8 +60,6 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& HitResult)
 {
 	const AActor* CurrentOwner = GetOwner();
-	ATurret* Tower = Cast<ATurret>(OtherActor);
-	ATank* Tank = Cast<ATank>(OtherActor);
 	
 	//If the projectile collides with itself destroy it
 	if (!CurrentOwner)
@@ -68,17 +68,21 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 		return;
 	}
 
+	//Get the instigator of the projectile
 	AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
 	
 	//If the actor is not it self apply damage
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
 	{
-		//@@TODO Apply damage to current instigator
-		if (Tower)
-		{
-			Tower->HandleDestruction();
-		}
-		
+		//Apply damage to current instigator
+		UGameplayStatics::ApplyDamage(
+			OtherActor, //actor that will be damaged
+			Damage, //the base damage to apply
+			CurrentInstigator, //controller that caused the damage 
+			this, //Actor that actually caused the damage
+			UDamageType::StaticClass() //class that describes the damage that was done
+		);
+
 		if (HitParticles)
 		{
 			//Spawn hit particles at the location and rotation
