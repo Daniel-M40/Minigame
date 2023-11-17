@@ -2,10 +2,8 @@
 
 
 #include "TimeTrailsGameMode.h"
-
 #include "Kismet/GameplayStatics.h"
-
-class ATurret;
+#include "Minigame/Pawns/Turret/Turret.h"
 
 void ATimeTrailsGameMode::BeginPlay()
 {
@@ -15,12 +13,17 @@ void ATimeTrailsGameMode::BeginPlay()
 	GetWorldTimerManager().SetTimer(
 		TimerHandle, this, &ATimeTrailsGameMode::IncreaseTimer, 1.f, true, 0.0);
 
-	TArray<AActor*> TurretArr;
+	TArray<AActor*> TurretArr; //Array of turret actors in the level
+	TurretClass = ATurret::StaticClass();
 
 	//Get all actors of class ATurret
-	UGameplayStatics::GetAllActorsOfClass(this, TurretClass, TurretArr);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), TurretClass, TurretArr);
 
+	//Store the amount of turrets
 	TurretAmount = TurretArr.Num();
+
+	//Hide Mouse Cursor
+	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
 }
 
 void ATimeTrailsGameMode::IncreaseTimer()
@@ -37,7 +40,7 @@ void ATimeTrailsGameMode::DecreaseTurretAmount()
 {
 	TurretAmount--;
 
-	if (TurretAmount == 0)
+	if (TurretAmount <= 0)
 	{
 		//Player has destroyed all turrets
 		//Stop the timer

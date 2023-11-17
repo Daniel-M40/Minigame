@@ -19,8 +19,8 @@ class MINIGAME_API ATimeTrailsGameMode : public AGameModeBase
 private:
 	FTimerHandle TimerHandle;
 
-	UPROPERTY(EditAnywhere, Category="", meta=(DisplayName=""))
-	TSubclassOf<AActor> TurretClass;
+	UPROPERTY(EditAnywhere, Category="Config", meta=(DisplayName="Turret Class"))
+	TSubclassOf<class ATurret> TurretClass;
 
 	int TurretAmount = 0;
 
@@ -28,6 +28,8 @@ public:
 	UPROPERTY(BlueprintReadOnly, Category="Time")
 	float Timer = 0.f;
 
+	UPROPERTY(EditAnywhere, Category="Show Cursor")
+	bool bShowCursor = false;
 	
 	#pragma endregion
 
