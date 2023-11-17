@@ -13,4 +13,15 @@ UCLASS()
 class MINIGAME_API AWaveGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
+
+#pragma region Properties
+
+	
+#pragma endregion
+
+#pragma region Actions
+
+	void BeginPlay() override;
+	
+#pragma endregion
 };
