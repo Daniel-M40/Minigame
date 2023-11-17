@@ -44,11 +44,6 @@ class MINIGAME_API ATank : public ABasePawn
 	//Player Controller
 	class APlayerController* PlayerController;
 	
-	//GameMode ref
-	class ATimeTrailsGameMode* TimeTrailsGameMode;
-
-	class AWaveGameMode* WaveGameMode;
-	
 	
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
