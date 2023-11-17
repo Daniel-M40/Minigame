@@ -6,7 +6,10 @@
 #include "Components/SphereComponent.h"
 #include "Evaluation/IMovieSceneEvaluationHook.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/GameModes/TimeTrailsGameMode.h"
+#include "Minigame/GameModes/WaveGameMode.h"
 #include "Minigame/Projectile/Projectile.h"
+#include "Turret/Turret.h"
 
 
 // Sets default values
@@ -31,17 +34,17 @@ ABasePawn::ABasePawn()
 	//Projectile spawn point
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(BaseTurretMesh);
-
+	
 }
 
 // Called when the game starts or when spawned
 void ABasePawn::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//Add dynamic delegates when an event occurs for the collision
-	CollisionSphere->OnComponentBeginOverlap.AddDynamic(this, &ABasePawn::OnOverlapBegin);
-	CollisionSphere->OnComponentEndOverlap.AddDynamic(this, &ABasePawn::OnOverlapEnd);
+	
+	//Assign game modes
+	TimeTrailsGM = Cast<ATimeTrailsGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	WaveModeGM = Cast<AWaveGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	
 }
 
@@ -53,6 +56,7 @@ void ABasePawn::Shoot()
 		AProjectile* tempProjectile = GetWorld()->SpawnActor<AProjectile>(ProjectileClass,
 		                                                              ProjectileSpawnPoint->GetComponentLocation(),
 		                                                              ProjectileSpawnPoint->GetComponentRotation());
+		tempProjectile->SetOwner(this);
 	}
 }
 
@@ -81,6 +85,21 @@ void ABasePawn::HandleDestruction()
 	if (DeathSound)
 		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 
+	//Check if the actor we have destroyed is a turret
+	if(GetClass()->IsChildOf(ATurret::StaticClass()))
+	{
+		if (TimeTrailsGM)
+		{
+			//Decrease turret count
+			TimeTrailsGM->DecreaseTurretAmount();
+		}
+		else if (WaveModeGM)
+		{
+			//Decrease turret count
+			//WaveModeGM->DecreaseTurretAmount();
+		}
+	}
+	
 	Destroy();
 }
 
@@ -96,15 +115,20 @@ void ABasePawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ABasePawn::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+float ABasePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
+	AActor* DamageCauser)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Overlap begin"));
+	//Subtract damage from health
+	Health -= DamageAmount;
+
+	//Check if actor has died
+	if (Health <= 0.f)
+	{
+		HandleDestruction();
+	}
+	
+	return DamageAmount;
 }
 
-void ABasePawn::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Overlap begin"));
-}
+
 

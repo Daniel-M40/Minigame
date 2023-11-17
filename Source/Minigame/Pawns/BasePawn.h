@@ -15,32 +15,48 @@ class MINIGAME_API ABasePawn : public APawn
 
 #pragma region Properties
 
-protected:
-	UPROPERTY(EditAnywhere, Category="Mesh")
-	class UStaticMeshComponent* BaseTurretMesh;
-
-	UPROPERTY(EditAnywhere, Category="Mesh")
-	UStaticMeshComponent* BaseTowerMesh;
-
+private:
+	//Spawn point of the projectiles
 	UPROPERTY(EditAnywhere, Category="Projectile")
 	class USceneComponent* ProjectileSpawnPoint;
 
+	//Stores the class of the projectile so we can spawn it
 	UPROPERTY(EditAnywhere, Category="Projectile")
 	TSubclassOf<AProjectile> ProjectileClass;
 
+	//Collision component to set hit / trigger events on
 	UPROPERTY(EditAnywhere, Category="Collision")
 	class USphereComponent* CollisionSphere;
 
-	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
-	float TurretRotationSpeed = 10.f;
-
+	//Stores the particles used when actor is destroyed
 	UPROPERTY(EditAnywhere, Category="Particles", meta=(DisplayName="Death particles"))
 	class UParticleSystem* DeathParticles;
-
+	
+	//Stores the sound used when actor dies
 	UPROPERTY(EditAnywhere, Category="Sound")
 	class USoundBase* DeathSound;
+
+	//Game mode refs
+	class ATimeTrailsGameMode* TimeTrailsGM;
 	
-	class AMinigameGameModeBase* GameModeRef;
+	class AWaveGameMode* WaveModeGM;
+
+protected:
+	//Actor Base Mesh
+	UPROPERTY(EditAnywhere, Category="Mesh")
+	class UStaticMeshComponent* BaseTurretMesh;
+
+	//Actor tower mesh
+	UPROPERTY(EditAnywhere, Category="Mesh")
+	UStaticMeshComponent* BaseTowerMesh;
+
+	//Health of the actor
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Total Health"))
+	float Health = 30.f;
+
+	//Rotation speed of the turret
+	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
+	float TurretRotationSpeed = 10.f;
 	
 #pragma endregion
 
@@ -68,11 +84,8 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UFUNCTION()
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-
-	UFUNCTION()
-	void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	// Called when the actor takes damage
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	
 #pragma endregion
