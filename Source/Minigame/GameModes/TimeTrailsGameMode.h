@@ -22,12 +22,18 @@ private:
 	UPROPERTY(EditAnywhere, Category="Config", meta=(DisplayName="Turret Class"))
 	TSubclassOf<class ATurret> TurretClass;
 
+	UPROPERTY(EditAnywhere, Category="Config", meta=(DisplayName="Default Pawn Class"))
+	TSubclassOf<APawn> PawnClass;
+	
 	int TurretAmount = 0;
 
 public:
 	UPROPERTY(BlueprintReadOnly, Category="Time")
 	float Timer = 0.f;
-
+	
+	UPROPERTY(EditAnywhere, Category="Time")
+	float TimerRate = 0.1f;
+	
 	UPROPERTY(EditAnywhere, Category="Show Cursor")
 	bool bShowCursor = false;
 	
@@ -37,11 +43,22 @@ public:
 
 	void BeginPlay() override;
 	
-	void IncreaseTimer();
+	void GetTimer();
 
 	void StopTimer();
 
 	void DecreaseTurretAmount();
+
+	void EndGame(bool bPlayerWon);
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Game Over"))
+	bool bGameOver;
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "End Game Text"))
+	FString EndGameTxt;
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Timer String"))
+	FString TimerText;
 	
 	#pragma endregion
 	

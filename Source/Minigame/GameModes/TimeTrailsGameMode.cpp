@@ -3,6 +3,8 @@
 
 #include "TimeTrailsGameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetStringLibrary.h"
+#include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/Turret/Turret.h"
 
 void ATimeTrailsGameMode::BeginPlay()
@@ -11,7 +13,7 @@ void ATimeTrailsGameMode::BeginPlay()
 
 	//Set timer 
 	GetWorldTimerManager().SetTimer(
-		TimerHandle, this, &ATimeTrailsGameMode::IncreaseTimer, 1.f, true, 0.0);
+		TimerHandle, this, &ATimeTrailsGameMode::GetTimer, TimerRate, true, 0.0);
 
 	TArray<AActor*> TurretArr; //Array of turret actors in the level
 	TurretClass = ATurret::StaticClass();
@@ -24,11 +26,18 @@ void ATimeTrailsGameMode::BeginPlay()
 
 	//Hide Mouse Cursor
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
+
+	//Set default pawn class
+	DefaultPawnClass = PawnClass;
 }
 
-void ATimeTrailsGameMode::IncreaseTimer()
+void ATimeTrailsGameMode::GetTimer()
 {
-	Timer++;
+	//Get current game time in seconds, also effected when game is paused and slo-mo
+	UKismetSystemLibrary::GetGameTimeInSeconds(this);
+
+	//Convert the time in seconds to string to display
+	TimerText = UKismetStringLibrary::TimeSecondsToString(UKismetSystemLibrary::GetGameTimeInSeconds(this));
 }
 
 void ATimeTrailsGameMode::StopTimer()
@@ -42,8 +51,27 @@ void ATimeTrailsGameMode::DecreaseTurretAmount()
 
 	if (TurretAmount <= 0)
 	{
-		//Player has destroyed all turrets
-		//Stop the timer
-		StopTimer();
+		//Player has destroyed all turrets end the game
+		EndGame(true);
 	}
+}
+
+void ATimeTrailsGameMode::EndGame(bool bPlayerWon)
+{
+	//Game is over stop the timer
+	StopTimer();
+
+	//Game is over , flag to show the GameOver Widget
+	bGameOver = true;
+
+	//Show certain text depending if the player has won or not
+	if (bPlayerWon)
+	{
+		EndGameTxt = "Game Won!!";
+	}
+	else
+	{
+		EndGameTxt = "Game Over!!";	
+	}
+	
 }
