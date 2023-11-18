@@ -13,6 +13,7 @@ class MINIGAME_API ATurret : public ABasePawn
 
 #pragma region Properties
 
+private:
 	class ATank* Tank;
 
 	UPROPERTY(EditAnywhere, Category = "Tower Config", meta = (DisplayName = "Turret Range", AllowPrivateAccess = "true"))
@@ -21,7 +22,9 @@ class MINIGAME_API ATurret : public ABasePawn
 	UPROPERTY(EditAnywhere, Category = "Tower Config", meta = (DisplayName = "Turret Rotation Speed", AllowPrivateAccess = "true"))
 	float mTurretRotationSpeed = 10.f;
 
+	//Timer handle for setting a delay on when the turret can shoot
 	FTimerHandle TimerHandle;
+
 	float FireRate = 2.f;
 	
 #pragma endregion
