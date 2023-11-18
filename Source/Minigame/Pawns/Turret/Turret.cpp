@@ -4,6 +4,7 @@
 #include "Turret.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 
 
@@ -54,7 +55,17 @@ void ATurret::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATurret::HandleDestruction()
 {
 	Super::HandleDestruction();
-	Destroy();
+
+	if (TimeTrailsGM)
+	{
+		//Decrease turret count
+		TimeTrailsGM->DecreaseTurretAmount();
+	}
+	else if (WaveModeGM)
+	{
+		//Decrease turret count
+		//WaveModeGM->DecreaseTurretAmount();
+	}
 }
 
 void ATurret::CheckFireCondition()
