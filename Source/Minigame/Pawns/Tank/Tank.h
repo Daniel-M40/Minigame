@@ -13,12 +13,20 @@ class MINIGAME_API ATank : public ABasePawn
 
 	#pragma region Properties
 
+private:
+	
 	//Camera Config
 	UPROPERTY(EditAnywhere, Category="Camera Config")
 	class UCameraComponent* Camera;
 
 	UPROPERTY(EditAnywhere, Category="Camera Config")
 	class USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(EditAnywhere, Category="Camera Config")
+	bool CameraLag = true;
+
+	UPROPERTY(EditAnywhere, Category="Camera Config")
+	bool CameraRotationLag = true;
 	
 	//Movement Config
 	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Movement Speed"))
@@ -43,7 +51,14 @@ class MINIGAME_API ATank : public ABasePawn
 
 	//Player Controller
 	class APlayerController* PlayerController;
+
+	//Shooting delay for tank
+	bool bCanShoot;
+
+	UPROPERTY(EditAnywhere, Category="Combat")
+	float FireRate = 1.f;
 	
+	FTimerHandle ShootTimeHandle;
 	
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
@@ -52,7 +67,6 @@ class MINIGAME_API ATank : public ABasePawn
 public:
 	bool bIsAlive = true;
 
-	
 	#pragma  endregion
 	
 	#pragma region Actions
@@ -77,6 +91,8 @@ public:
 	void TurnHandler(const struct FInputActionValue& Value);
 
 	void ShootHandler(const struct FInputActionValue& Value);
+
+	void EnableShooting();
 	
 	#pragma endregion
 

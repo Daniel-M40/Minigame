@@ -31,6 +31,13 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Spring arm config
+	if (SpringArmComponent)
+	{
+		SpringArmComponent->bEnableCameraLag = CameraLag;
+		SpringArmComponent->bEnableCameraRotationLag = CameraRotationLag;
+	}
+	
 	//Get Player controller
 	PlayerController = Cast<APlayerController>(GetController());
 
@@ -41,7 +48,8 @@ void ATank::BeginPlay()
 		Subsystem->AddMappingContext(TankMappingContext, 0);
 	}
 
-	
+	//Set timer so that based on the fire rate it will shoot at the player
+	GetWorldTimerManager().SetTimer(ShootTimeHandle, this, &ATank::EnableShooting, FireRate, true);
 }
 
 // Called every frame
@@ -93,7 +101,16 @@ void ATank::TurnHandler(const FInputActionValue& Value)
 
 void ATank::ShootHandler(const FInputActionValue& Value)
 {
-	Shoot();
+	if (bCanShoot)
+	{
+		Shoot();
+		bCanShoot = false;
+	}
+}
+
+void ATank::EnableShooting()
+{
+	bCanShoot = true;
 }
 
 void ATank::HandleDestruction()
