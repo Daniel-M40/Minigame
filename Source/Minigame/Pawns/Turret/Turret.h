@@ -14,8 +14,6 @@ class MINIGAME_API ATurret : public ABasePawn
 #pragma region Properties
 
 private:
-	class ATank* Tank;
-
 	UPROPERTY(EditAnywhere, Category = "Tower Config", meta = (DisplayName = "Turret Range", AllowPrivateAccess = "true"))
 	float mFireRange = 10.f;
 
@@ -26,6 +24,9 @@ private:
 	FTimerHandle TimerHandle;
 
 	float FireRate = 2.f;
+
+protected:
+	class ATank* Tank;
 	
 #pragma endregion
 	
