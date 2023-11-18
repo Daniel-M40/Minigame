@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Minigame/GameModes/TimeTrailsGameMode.h"
 
 
 // Sets default values
@@ -98,6 +99,13 @@ void ATank::ShootHandler(const FInputActionValue& Value)
 void ATank::HandleDestruction()
 {
 	Super::HandleDestruction();
+
+	if (TimeTrailsGM)
+	{
+		//Player has died so end game
+		TimeTrailsGM->EndGame(false);
+	}
+
 	
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
