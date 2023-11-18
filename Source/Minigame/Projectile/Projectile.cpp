@@ -2,7 +2,6 @@
 
 
 #include "Projectile.h"
-
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Pawns/Tank/Tank.h"
@@ -59,7 +58,7 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& HitResult)
 {
-	const AActor* CurrentOwner = GetOwner();
+	AActor* CurrentOwner = GetOwner();
 	
 	//If the projectile collides with itself destroy it
 	if (!CurrentOwner)
@@ -67,9 +66,15 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 		Destroy();
 		return;
 	}
-
+	
 	//Get the instigator of the projectile
 	AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
+	
+	if (CurrentInstigator && !CurrentInstigator->IsPlayerController() && OtherActor->GetClass()->IsChildOf(ATurret::StaticClass()))
+	{
+		Destroy();
+		return;
+	}
 	
 	//If the actor is not it self apply damage
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
