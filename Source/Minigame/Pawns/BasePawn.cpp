@@ -85,20 +85,6 @@ void ABasePawn::HandleDestruction()
 	if (DeathSound)
 		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 
-	//Check if the actor we have destroyed is a turret
-	if(GetClass()->IsChildOf(ATurret::StaticClass()))
-	{
-		if (TimeTrailsGM)
-		{
-			//Decrease turret count
-			TimeTrailsGM->DecreaseTurretAmount();
-		}
-		else if (WaveModeGM)
-		{
-			//Decrease turret count
-			//WaveModeGM->DecreaseTurretAmount();
-		}
-	}
 	
 	Destroy();
 }

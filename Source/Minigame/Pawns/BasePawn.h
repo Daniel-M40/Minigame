@@ -36,10 +36,6 @@ private:
 	UPROPERTY(EditAnywhere, Category="Sound")
 	class USoundBase* DeathSound;
 
-	//Game mode refs
-	class ATimeTrailsGameMode* TimeTrailsGM;
-	
-	class AWaveGameMode* WaveModeGM;
 
 protected:
 	//Actor Base Mesh
@@ -57,6 +53,11 @@ protected:
 	//Rotation speed of the turret
 	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
 	float TurretRotationSpeed = 10.f;
+
+	//Game mode refs
+	class ATimeTrailsGameMode* TimeTrailsGM;
+	
+	class AWaveGameMode* WaveModeGM;
 	
 #pragma endregion
 
