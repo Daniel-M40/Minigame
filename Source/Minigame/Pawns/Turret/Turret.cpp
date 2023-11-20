@@ -28,6 +28,15 @@ void ATurret::BeginPlay()
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ATurret::CheckFireCondition, FireRate, true);
 }
 
+void ATurret::ResetTimer()
+{
+	GetWorldTimerManager().ClearTimer(TimerHandle);
+
+	//Set timer so that based on the fire rate it will shoot at the player
+	//Set new timer with new fire rate
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &ATurret::CheckFireCondition, FireRate, true);
+}
+
 // Called every frame
 void ATurret::Tick(float DeltaTime)
 {

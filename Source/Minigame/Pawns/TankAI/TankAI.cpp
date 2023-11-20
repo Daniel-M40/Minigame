@@ -64,8 +64,8 @@ void ATankAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATankAI::IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease)
 {
 	//Increase enemy status after wave is completed
-	Health += HealthIncrement;
-	MovementSpeed += SpeedIncrement;
-	FireRate -= FireRateDecrease;
+	Health = HealthIncrement;
+	MovementSpeed = SpeedIncrement;
+	FireRate = FireRateDecrease;
 }
 

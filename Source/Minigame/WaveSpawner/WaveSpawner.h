@@ -29,13 +29,25 @@ private:
 	
 	//Value that increments the enemies status as the waves progress
 	UPROPERTY(EditAnywhere, Category="Enemy")
-	float MovementSpeedIncrease = .25f;
+	float MovementSpeedIncrease = .01f;
 
 	UPROPERTY(EditAnywhere, Category="Enemy")
-	float HealthIncrease = 10.f;
+	float HealthIncrease = 2.5f;
 
 	UPROPERTY(EditAnywhere, Category="Enemy")
-	float FireRateDecrease = .25f;
+	float FireRateDecrease = .1f;
+
+	//Enemy Movement speed
+	UPROPERTY(VisibleAnywhere, Category="Enemy")
+	float MovementSpeed = .25f;
+
+	//Enemy health
+	UPROPERTY(VisibleAnywhere, Category="Enemy")
+	float Health = 0.f;
+
+	//Fire rate
+	UPROPERTY(VisibleAnywhere, Category="Enemy")
+	float FireRate = 3.f;
 	
 	//Increment the decreases the time enemies will take to shoot at the player
 	UPROPERTY(EditAnywhere, Category="Enemy")
@@ -52,6 +64,8 @@ public:
 	//Flag that shows whether all the enemies have died and the wave is completed
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
 	bool bWaveComplete;
+
+	bool bSpawningEnemies = false;
 	
 #pragma endregion
 
@@ -69,6 +83,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void StartWave();
+
 	
 private:
 		
@@ -77,7 +93,8 @@ private:
 
 	//Check if all the enemies are dead
 	void AllEnemiesDead();
-	
+
+	void IncreaseStats();
 	
 #pragma endregion
 };

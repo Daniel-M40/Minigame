@@ -17,11 +17,8 @@ AWaveSpawner::AWaveSpawner()
 void AWaveSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-
-	//Set timer to spawn enemy
-	GetWorldTimerManager().SetTimer(
-		SpawnerTimeHandle, this, &AWaveSpawner::SpawnEnemy, SpawnRate, false);
 	
+	StartWave();
 }
 
 // Called every frame
@@ -35,13 +32,34 @@ void AWaveSpawner::Tick(float DeltaTime)
 	}
 }
 
+void AWaveSpawner::StartWave()
+{
+	//Set current enemy amount to 0
+	CurrentEnemyAmount = 0;
+
+	bWaveComplete = false;
+
+	//Set flag to true as we are spawning enemies
+	bSpawningEnemies = true;
+
+	//Clear enemy array
+	EnemyArr.Empty();
+	
+	//Set timer to spawn enemy
+	GetWorldTimerManager().SetTimer(
+		SpawnerTimeHandle, this, &AWaveSpawner::SpawnEnemy, SpawnRate, false);
+}
+
 void AWaveSpawner::SpawnEnemy()
 {
 	//Spawn enemies at wave spawner location
  	ATankAI* Enemy = GetWorld()->SpawnActor<ATankAI>(EnemyClass, GetActorLocation(), GetActorRotation());
 	
 	//Increase enemies stats
-	Enemy->IncreaseStats(HealthIncrease, MovementSpeedIncrease, FireRateDecrease);
+	IncreaseStats();
+	Enemy->IncreaseStats(Health, MovementSpeed, FireRate);
+
+	Enemy->ResetTimer();
 	
 	Enemy->SetOwner(this);
 	
@@ -58,11 +76,21 @@ void AWaveSpawner::SpawnEnemy()
 		GetWorldTimerManager().SetTimer(
 			SpawnerTimeHandle, this, &AWaveSpawner::SpawnEnemy, SpawnRate, false);
 	}
+	else
+	{
+		bSpawningEnemies = false;
+	}
 }
 
 void AWaveSpawner::AllEnemiesDead()
 {
 	bWaveComplete = false;
+
+	//If we are spawning enemies do not check if all enemies are dead
+	if (bSpawningEnemies)
+	{
+		return;
+	}
 	
 	//Loop though tank AI arr
 	for (ATankAI* TankAI : EnemyArr)
@@ -77,5 +105,12 @@ void AWaveSpawner::AllEnemiesDead()
 		//Otherwise all tanks are dead so wave is completed
 		bWaveComplete = true;
 	}
+}
+
+void AWaveSpawner::IncreaseStats()
+{
+	Health += HealthIncrease;
+	MovementSpeed += MovementSpeedIncrease;
+	FireRate -= FireRateDecrease;
 }
 

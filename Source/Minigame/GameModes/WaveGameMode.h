@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "WaveGameMode.generated.h"
 
+class AWaveSpawner;
+
 UCLASS()
 class MINIGAME_API AWaveGameMode : public AGameModeBase
 {
@@ -13,6 +15,20 @@ class MINIGAME_API AWaveGameMode : public AGameModeBase
 
 #pragma region Properties
 
+private:
+	UPROPERTY(EditAnywhere, Category="Config")
+	TSubclassOf<AWaveSpawner> WaveSpawnerClass;
+
+	UPROPERTY(EditAnywhere, Category="Config")
+	bool bShowCursor = false;
+
+	int WaveSpawnerAmount;
+
+	//Array of wave spawner actors in the level
+	TArray<AWaveSpawner*> WaveSpawnerArr;
+	
+	bool bAllWavesComplete = true;
+	
 public:
 	//Shows the current wave
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
@@ -25,7 +41,14 @@ public:
 
 	void BeginPlay() override;
 
+	virtual void Tick(float DeltaSeconds) override;
+
+private:
+	void GetAllWaveSpawner();
+	
 public:
+	AWaveGameMode();
+	
 	//Check if wave is finished if all wave spawners are "complete"
 	void AllWavesComplete();
 

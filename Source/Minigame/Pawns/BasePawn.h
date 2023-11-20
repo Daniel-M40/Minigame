@@ -58,6 +58,9 @@ protected:
 	class ATimeTrailsGameMode* TimeTrailsGM;
 	
 	class AWaveGameMode* WaveModeGM;
+
+	UPROPERTY(EditAnywhere, Category="Cheats")
+	bool bIsInvincible = false;
 	
 #pragma endregion
 

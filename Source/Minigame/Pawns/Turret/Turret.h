@@ -38,6 +38,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -47,7 +48,11 @@ public:
 
 	virtual void HandleDestruction() override;
 
+	//Check if the actor can fire
 	void CheckFireCondition();
 
+	//Is actor in range of turret
 	bool IsActorInRange(const FVector& ActorLocation);
+
+	void ResetTimer();
 };
