@@ -9,20 +9,24 @@
 //Move enemy tank to player tank location
 void ATankAI::MoveTo()
 {
-	//Get actor location
-	FVector	CurrentLocation = GetActorLocation();
+	if (Tank)
+	{
+		//Get actor location
+		FVector	CurrentLocation = GetActorLocation();
 	
-	//Get tank location
-	FVector TankLocation = Tank->GetActorLocation();
+		//Get tank location
+		FVector TankLocation = Tank->GetActorLocation();
 
-	//Move to location
-	SetActorLocation(
-		FMath::VInterpTo(
-			CurrentLocation, //Actors current location
-			TankLocation, //Tanks current location (target location)
-			GetWorld()->GetDeltaSeconds(), //Delta time
-			MovementSpeed)
-	);
+		//Move to location
+		SetActorLocation(
+			FMath::VInterpTo(
+				CurrentLocation, //Actors current location
+				TankLocation, //Tanks current location (target location)
+				GetWorld()->GetDeltaSeconds(), //Delta time
+				MovementSpeed)
+		);
+	}
+
 }
 
 // Sets default values
