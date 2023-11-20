@@ -35,6 +35,9 @@ ABasePawn::ABasePawn()
 	//Projectile spawn point
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(BaseTurretMesh);
+
+	
+
 	
 }
 
@@ -46,7 +49,6 @@ void ABasePawn::BeginPlay()
 	//Assign game modes
 	TimeTrailsGM = Cast<ATimeTrailsGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	WaveModeGM = Cast<AWaveGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-	
 }
 
 void ABasePawn::Shoot()

@@ -39,9 +39,12 @@ void AWaveSpawner::SpawnEnemy()
 {
 	//Spawn enemies at wave spawner location
  	ATankAI* Enemy = GetWorld()->SpawnActor<ATankAI>(EnemyClass, GetActorLocation(), GetActorRotation());
-
+	
+	//Increase enemies stats
+	Enemy->IncreaseStats(HealthIncrease, MovementSpeedIncrease, FireRateDecrease);
+	
 	Enemy->SetOwner(this);
-
+	
 	//Add enemy to array to keep track of all enemies spawned
 	EnemyArr.Add(Enemy);
 

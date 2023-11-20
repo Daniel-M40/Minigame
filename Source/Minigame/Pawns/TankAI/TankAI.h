@@ -13,11 +13,11 @@ class MINIGAME_API ATankAI : public ATurret
 
 #pragma region Properties
 	
-private:
-	//Movement speed
+public:
+	//Movement speed of enemy
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float MovementSpeed = 0.1f;
-
+	
 #pragma endregion
 
 #pragma region Actions
@@ -40,5 +40,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease);
+	
 #pragma endregion
 };

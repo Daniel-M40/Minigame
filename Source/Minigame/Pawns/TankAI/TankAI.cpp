@@ -34,13 +34,15 @@ ATankAI::ATankAI()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	
+
 }
 
 // Called when the game starts or when spawned
 void ATankAI::BeginPlay()
 {
 	Super::BeginPlay();
-
 	
 }
 
@@ -57,5 +59,13 @@ void ATankAI::Tick(float DeltaTime)
 void ATankAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+void ATankAI::IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease)
+{
+	//Increase enemy status after wave is completed
+	Health += HealthIncrement;
+	MovementSpeed += SpeedIncrement;
+	FireRate -= FireRateDecrease;
 }
 

@@ -13,6 +13,8 @@ ATurret::ATurret()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+
 }
 
 // Called when the game starts or when spawned
@@ -24,7 +26,6 @@ void ATurret::BeginPlay()
 
 	//Set timer so that based on the fire rate it will shoot at the player
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ATurret::CheckFireCondition, FireRate, true);
-	
 }
 
 // Called every frame
@@ -41,7 +42,7 @@ void ATurret::Tick(float DeltaTime)
 		if (IsActorInRange(tankCurrentLocation))
 		{
 			//Look at player location
-			LookAtTarget(tankCurrentLocation, mTurretRotationSpeed);
+			LookAtTarget(tankCurrentLocation, TurretRotationSpeed);
 		}
 	}
 }
@@ -55,7 +56,7 @@ void ATurret::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATurret::HandleDestruction()
 {
 	Super::HandleDestruction();
-
+	
 	if (TimeTrailsGM)
 	{
 		//Decrease turret count
@@ -90,6 +91,6 @@ bool ATurret::IsActorInRange(const FVector& ActorLocation)
 	const float Distance = FVector::Dist(towerCurrentLocation, ActorLocation);
 
 	//Check if the tank is in range
-	return Distance <= mFireRange;
+	return Distance <= FireRange;
 }
 

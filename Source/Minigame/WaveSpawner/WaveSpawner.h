@@ -31,6 +31,12 @@ private:
 	UPROPERTY(EditAnywhere, Category="Enemy")
 	float MovementSpeedIncrease = .25f;
 
+	UPROPERTY(EditAnywhere, Category="Enemy")
+	float HealthIncrease = 10.f;
+
+	UPROPERTY(EditAnywhere, Category="Enemy")
+	float FireRateDecrease = .25f;
+	
 	//Increment the decreases the time enemies will take to shoot at the player
 	UPROPERTY(EditAnywhere, Category="Enemy")
 	float ShootingDelay = .25f;
@@ -42,11 +48,6 @@ private:
 	TArray<class ATankAI*> EnemyArr;
 
 public:
-
-	
-	//Shows the current wave
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
-	int CurrentWave = 1;
 	
 	//Flag that shows whether all the enemies have died and the wave is completed
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
