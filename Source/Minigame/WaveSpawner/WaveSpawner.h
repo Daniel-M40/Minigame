@@ -13,12 +13,19 @@ class MINIGAME_API AWaveSpawner : public AActor
 
 #pragma region Properties
 private:
+	//Value that determines the spawn rate of the enemies 
+	UPROPERTY(EditAnywhere, Category="Wave Config")
+	float SpawnRate = 1.f;
+
+	FTimerHandle SpawnerTimeHandle;
+	
 	//Value that shows how many enemies will spawn at the start
-	UPROPERTY(EditAnywhere, Category="Enemy")
-	int EnemyStartAmount = 1;
+	UPROPERTY(EditAnywhere, Category="Wave Config")
+	int SpawnAmount = 1;
 
 	//Value that shows how many enemies are currently spawning
-	int CurrentEnemyAmount = 1;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config", meta=(AllowPrivateAccess=true))
+	int CurrentEnemyAmount = 0;
 	
 	//Value that increments the enemies status as the waves progress
 	UPROPERTY(EditAnywhere, Category="Enemy")
@@ -35,6 +42,8 @@ private:
 	TArray<class ATankAI*> EnemyArr;
 
 public:
+
+	
 	//Shows the current wave
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
 	int CurrentWave = 1;
@@ -61,8 +70,9 @@ public:
 
 	
 private:
-	//Spawns the enemies for the wave
-	void SpawnEnemies();
+		
+	//Spawn enemy at spawn point
+	void SpawnEnemy();
 
 	//Check if all the enemies are dead
 	void AllEnemiesDead();

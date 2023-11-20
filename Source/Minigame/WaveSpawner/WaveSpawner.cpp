@@ -18,7 +18,9 @@ void AWaveSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SpawnEnemies();
+	//Set timer to spawn enemy
+	GetWorldTimerManager().SetTimer(
+		SpawnerTimeHandle, this, &AWaveSpawner::SpawnEnemy, SpawnRate, false);
 	
 }
 
@@ -33,14 +35,26 @@ void AWaveSpawner::Tick(float DeltaTime)
 	}
 }
 
-void AWaveSpawner::SpawnEnemies()
+void AWaveSpawner::SpawnEnemy()
 {
 	//Spawn enemies at wave spawner location
  	ATankAI* Enemy = GetWorld()->SpawnActor<ATankAI>(EnemyClass, GetActorLocation(), GetActorRotation());
 
 	Enemy->SetOwner(this);
 
+	//Add enemy to array to keep track of all enemies spawned
 	EnemyArr.Add(Enemy);
+
+	//Increment counter to show how many enemies have been spawned
+	CurrentEnemyAmount++;
+
+	//Check if we need to still spawn enemies
+	if (CurrentEnemyAmount < SpawnAmount)
+	{
+		//Set timer to spawn enemy
+		GetWorldTimerManager().SetTimer(
+			SpawnerTimeHandle, this, &AWaveSpawner::SpawnEnemy, SpawnRate, false);
+	}
 }
 
 void AWaveSpawner::AllEnemiesDead()
