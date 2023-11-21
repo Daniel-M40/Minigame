@@ -4,6 +4,7 @@
 #include "Health.h"
 
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Pawns/Tank/Tank.h"
 
 
 // Sets default values
@@ -34,9 +35,14 @@ void AHealth::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	
 	UE_LOG(LogTemp, Warning, TEXT("Health Overlap"));
 	
+	
+	//Apply power up to tank
+	if (Tank)
+	{
+		Tank->IncreaseHealth(HealthIncrease);
+	}
 
-	//Emit to game mode to increase players health
-
+		
 	//Destroy power up after pickup
 	Destroy();
 }
