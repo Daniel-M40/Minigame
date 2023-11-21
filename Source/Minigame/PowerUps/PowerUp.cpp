@@ -6,6 +6,8 @@
 #include "NiagaraComponent.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/GameModes/WaveGameMode.h"
+#include "Minigame/Pawns/Tank/Tank.h"
 
 // Sets default values
 APowerUp::APowerUp()
@@ -30,7 +32,14 @@ void APowerUp::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Set up dynamic delegate
 	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &APowerUp::OnOverlapBegin);
+
+	//Get wave game mode
+	WaveGameMode = Cast<AWaveGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	//Get reference to the tank
+	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
 }
 
 // Called every frame
@@ -50,6 +59,7 @@ void APowerUp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 		UGameplayStatics::PlaySoundAtLocation(this, PickupSound,
 			GetActorLocation(), GetActorRotation(), PickupSoundVolume, PickupSoundPitch);
 	}
+
 }
 
 

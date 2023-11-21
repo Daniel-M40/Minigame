@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "PowerUp.generated.h"
 
+class AWaveGameMode;
+
 UCLASS()
 class MINIGAME_API APowerUp : public AActor
 {
@@ -31,6 +33,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category="Sound")
 	float PickupSoundPitch = 1.f;
+
+	class ATank* Tank;
+	
+public:
+	AWaveGameMode* WaveGameMode;
 	
 #pragma endregion
 	
