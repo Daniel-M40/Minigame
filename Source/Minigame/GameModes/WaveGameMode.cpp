@@ -15,8 +15,10 @@ AWaveGameMode::AWaveGameMode()
 void AWaveGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	GetAllWaveSpawner();
+
+	//Add getting all wave spawners on a delay
+	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
+		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
 
 	//Hide Mouse Cursor
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
@@ -74,6 +76,8 @@ void AWaveGameMode::GetAllWaveSpawner()
 	
 	//Store the amount of wave spawners in the world
 	WaveSpawnerAmount = WaveSpawnerArr.Num();
+
+	UE_LOG(LogTemp, Warning, TEXT("Num of waves spawner: %d"), WaveSpawnerAmount);
 }
 
 

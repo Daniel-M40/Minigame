@@ -24,6 +24,10 @@ private:
 
 	int WaveSpawnerAmount;
 
+	FTimerHandle GetAllWavesTimer;
+
+	float GetAllWavesDelay = 2.5f;
+	
 	//Array of wave spawner actors in the level
 	TArray<AWaveSpawner*> WaveSpawnerArr;
 	
