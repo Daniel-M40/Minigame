@@ -98,7 +98,8 @@ void ABasePawn::HandleDestruction()
 	
 
 	if (DeathSound)
-		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
+		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(),
+			DeathSoundVolume, DeathSoundPitch);
 
 	
 	Destroy();

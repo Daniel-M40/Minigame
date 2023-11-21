@@ -36,7 +36,12 @@ private:
 	UPROPERTY(EditAnywhere, Category="Sound")
 	class USoundBase* DeathSound;
 
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float DeathSoundVolume = 1.f;
 
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float DeathSoundPitch = 1.f;
+	
 protected:
 	//Actor Base Mesh
 	UPROPERTY(EditAnywhere, Category="Mesh")

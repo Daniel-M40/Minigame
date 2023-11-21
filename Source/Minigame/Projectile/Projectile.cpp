@@ -46,7 +46,8 @@ void AProjectile::BeginPlay()
 
 	if (LaunchSound)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation(), GetActorRotation());
+		UGameplayStatics::PlaySoundAtLocation(this, LaunchSound,
+			GetActorLocation(), GetActorRotation(), LaunchVolume, LaunchPitch);
 	}
 	
 }
@@ -103,13 +104,15 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 		if (HitParticles)
 		{
 			//Spawn hit particles at the location and rotation
-			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(), GetActorRotation());
+			UGameplayStatics::SpawnEmitterAtLocation(this, HitParticles, GetActorLocation(),
+				GetActorRotation());
 		}
 
 		if (HitSound)
 		{
 			//Play sound at location
-			UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation(), GetActorRotation());
+			UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation(),
+				GetActorRotation(), HitSoundVolume, HitSoundPitch);
 		}
 	}
 

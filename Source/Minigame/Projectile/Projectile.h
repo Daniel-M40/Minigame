@@ -48,11 +48,20 @@ private:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	class USoundBase* LaunchSound;
 
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float LaunchVolume = .4f;
+
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float LaunchPitch = 1.f;
 	
-	UPROPERTY(EditAnywhere, Category="Combat")
+	UPROPERTY(EditAnywhere, Category="Sound")
 	USoundBase* HitSound;
 
-	
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float HitSoundVolume = 1.f;
+
+	UPROPERTY(EditAnywhere, Category="Sound")
+	float HitSoundPitch = 1.f;	
 	#pragma endregion
 	
 public:
