@@ -53,12 +53,17 @@ void APowerUp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 {
 	UE_LOG(LogTemp, Warning, TEXT("Begin Overlap"));
 
-	if (PickupSound)
+	//Check if actor is a kind of tank
+	if (OtherActor->GetClass()->IsChildOf(ATank::StaticClass()))
 	{
-		//Play pickup sound when overlap
-		UGameplayStatics::PlaySoundAtLocation(this, PickupSound,
-			GetActorLocation(), GetActorRotation(), PickupSoundVolume, PickupSoundPitch);
+		if (PickupSound)
+		{
+			//Play pickup sound when overlap
+			UGameplayStatics::PlaySoundAtLocation(this, PickupSound,
+				GetActorLocation(), GetActorRotation(), PickupSoundVolume, PickupSoundPitch);
+		}
 	}
+		
 
 }
 

@@ -33,15 +33,19 @@ void ASpeed::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 	Super::OnOverlapBegin(OverlappedComp, OtherActor, OtherComp, OtherBodyIndex, bFromSweep, SweepResult);
 	
 	UE_LOG(LogTemp, Warning, TEXT("Speed Overlap"));
-	
-	
-	//Apply power up to tank
-	if (Tank)
+
+	//Check if actor is a kind of tank
+	if (OtherActor->GetClass()->IsChildOf(ATank::StaticClass()))
 	{
-		Tank->EnableFasterMovement(Multiplier, SpeedIncreaseDuration);
+		//Apply power up to tank
+		if (Tank)
+		{
+			Tank->EnableFasterMovement(Multiplier, SpeedIncreaseDuration);
+		}
+		
+		//Destroy power up after pickup
+		Destroy();
 	}
 	
-	//Destroy power up after pickup
-	Destroy();
 }
 

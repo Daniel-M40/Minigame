@@ -35,15 +35,18 @@ void AHealth::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherA
 	
 	UE_LOG(LogTemp, Warning, TEXT("Health Overlap"));
 	
-	
-	//Apply power up to tank
-	if (Tank)
+	//Check if actor is a kind of tank
+	if (OtherActor->GetClass()->IsChildOf(ATank::StaticClass()))
 	{
-		Tank->IncreaseHealth(HealthIncrease);
-	}
+		//Apply power up to tank
+		if (Tank)
+		{
+			Tank->IncreaseHealth(HealthIncrease);
+		}
 
-		
-	//Destroy power up after pickup
-	Destroy();
+			
+		//Destroy power up after pickup
+		Destroy();
+	}
 }
 
