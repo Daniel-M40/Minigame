@@ -57,8 +57,16 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Combat")
 	float FireRate = 1.f;
-	
+
+	//Timer to delay the players firing by
 	FTimerHandle ShootTimeHandle;
+
+	bool bHasFasterMovement = false;
+
+	float MovementSpeedMultiplier = 2.f;
+
+	//Timer to increase the players speed for
+	FTimerHandle SpeedTimerHandle;
 	
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
@@ -93,6 +101,14 @@ public:
 	void ShootHandler(const struct FInputActionValue& Value);
 
 	void EnableShooting();
+	
+	//Increases the players health by a certain value
+	void IncreaseHealth(float healthValue);
+
+	//Function that creates a timer that increases the players speed by
+	void EnableFasterMovement(float multiplier, float time);
+
+	void DisableFasterMovement();
 	
 	#pragma endregion
 

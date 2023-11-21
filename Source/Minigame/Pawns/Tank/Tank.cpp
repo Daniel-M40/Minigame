@@ -91,12 +91,22 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void ATank::MoveHandler(const FInputActionValue& Value)
 {
-	AddMovementInput(GetActorForwardVector() * Value.Get<float>());
+	//If we have picked up the speed power up multiply the movement speed by a value
+	if (bHasFasterMovement)
+	{
+		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds *
+			MovementSpeed * MovementSpeedMultiplier);
+	}
+	else
+	{
+		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds,
+						MovementSpeed);
+	}
 }
 
 void ATank::TurnHandler(const FInputActionValue& Value)
 {
-	AddControllerYawInput(Value.Get<float>());
+	AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
 }
 
 void ATank::ShootHandler(const FInputActionValue& Value)
@@ -111,6 +121,25 @@ void ATank::ShootHandler(const FInputActionValue& Value)
 void ATank::EnableShooting()
 {
 	bCanShoot = true;
+}
+
+void ATank::IncreaseHealth(float healthValue)
+{
+	Health += healthValue;
+}
+
+void ATank::EnableFasterMovement(float multiplier, float time)
+{
+	bHasFasterMovement = true;
+	MovementSpeedMultiplier = multiplier;
+	
+	//Set timer for disabling tanks faster movement
+	GetWorldTimerManager().SetTimer(SpeedTimerHandle, this, &ATank::DisableFasterMovement, time, false);
+}
+
+void ATank::DisableFasterMovement()
+{
+	bHasFasterMovement = false;
 }
 
 void ATank::HandleDestruction()
