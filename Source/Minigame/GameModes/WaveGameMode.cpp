@@ -12,23 +12,9 @@ AWaveGameMode::AWaveGameMode()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-void AWaveGameMode::BeginPlay()
+
+void AWaveGameMode::AllWavesComplete()
 {
-	Super::BeginPlay();
-
-	//Add getting all wave spawners on a delay
-	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
-		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
-
-	//Hide Mouse Cursor
-	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
-	
-}
-
-void AWaveGameMode::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
 	// Check if all wave spawners are complete
 	for (int i = 0; i < WaveSpawnerAmount; i++)
 	{
@@ -56,6 +42,26 @@ void AWaveGameMode::Tick(float DeltaSeconds)
 	}
 }
 
+void AWaveGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//Add getting all wave spawners on a delay
+	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
+		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
+
+	//Hide Mouse Cursor
+	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
+	
+}
+
+void AWaveGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	AllWavesComplete();
+}
+
 void AWaveGameMode::GetAllWaveSpawner()
 {
 	TArray<AActor*> tempWaveSpawnerArr;
@@ -80,4 +86,10 @@ void AWaveGameMode::GetAllWaveSpawner()
 	UE_LOG(LogTemp, Warning, TEXT("Num of waves spawner: %d"), WaveSpawnerAmount);
 }
 
+void AWaveGameMode::GameEnd()
+{
+}
 
+void AWaveGameMode::IncreaseScore()
+{
+}

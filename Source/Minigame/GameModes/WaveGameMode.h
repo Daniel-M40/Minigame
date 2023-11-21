@@ -50,19 +50,18 @@ public:
 private:
 	void GetAllWaveSpawner();
 	
+	//Check if wave is finished if all wave spawners are "complete"
+	void AllWavesComplete();
+	
 public:
 	AWaveGameMode();
 	
-	//Check if wave is finished if all wave spawners are "complete"
-	void AllWavesComplete();
-
 	//Function that ends the game
 	void GameEnd();
 
 	//Increments the players overall score from killing enemies
 	void IncreaseScore();
 
-	void NextWave();
 	
 #pragma endregion
 };
