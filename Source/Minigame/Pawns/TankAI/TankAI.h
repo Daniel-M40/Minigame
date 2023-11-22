@@ -17,7 +17,10 @@ public:
 	//Movement speed of enemy
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float MovementSpeed = 0.1f;
-	
+
+	//Range in which the actor stays away from the tank by
+	UPROPERTY(EditAnywhere, Category="Movement")
+	float Range = 500.f;
 #pragma endregion
 
 #pragma region Actions
@@ -41,6 +44,6 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease);
-	
+
 #pragma endregion
 };

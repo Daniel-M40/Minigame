@@ -17,14 +17,21 @@ void ATankAI::MoveTo()
 		//Get tank location
 		FVector TankLocation = Tank->GetActorLocation();
 
-		//Move to location
-		SetActorLocation(
-			FMath::VInterpTo(
-				CurrentLocation, //Actors current location
-				TankLocation, //Tanks current location (target location)
-				GetWorld()->GetDeltaSeconds(), //Delta time
-				MovementSpeed)
-		);
+		//Find the distance of the tank
+		const float Distance = FVector::Dist(TankLocation, CurrentLocation);
+
+		//If actor is not in range move to the tank
+		if (Distance >= Range)
+		{
+			//Move to location
+			SetActorLocation(
+				FMath::VInterpTo(
+					CurrentLocation, //Actors current location
+					TankLocation, //Tanks current location (target location)
+					GetWorld()->GetDeltaSeconds(), //Delta time
+					MovementSpeed)
+			);
+		}
 	}
 
 }
@@ -34,9 +41,6 @@ ATankAI::ATankAI()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	
-
 }
 
 // Called when the game starts or when spawned
@@ -68,4 +72,5 @@ void ATankAI::IncreaseStats(const float HealthIncrement,const float SpeedIncreme
 	MovementSpeed = SpeedIncrement;
 	FireRate = FireRateDecrease;
 }
+
 
