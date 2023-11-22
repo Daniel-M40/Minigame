@@ -2,8 +2,8 @@
 
 
 #include "WaveGameMode.h"
-
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/PowerUps/PowerUp.h"
 #include "Minigame/WaveSpawner/WaveSpawner.h"
 
 AWaveGameMode::AWaveGameMode()
@@ -52,7 +52,9 @@ void AWaveGameMode::BeginPlay()
 
 	//Hide Mouse Cursor
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
-	
+
+	//Get length of power up array
+	PowerUpArrLength = PowerUpArr.Num();
 }
 
 void AWaveGameMode::Tick(float DeltaSeconds)
@@ -101,7 +103,21 @@ void AWaveGameMode::IncreaseScore()
 	PlayerScore++;
 }
 
-void AWaveGameMode::SpawnPowerUp(const FVector Location)
+void AWaveGameMode::SpawnPowerUp(const FVector Location, const FRotator Rotation)
 {
-	
+	//Randomly spawn power up if the value is 1
+	const int spawnPowerUp = FMath::RandRange(0, PowerUpSpawnRate);
+
+	if (spawnPowerUp)
+	{
+		//Randomly pick power up in array
+		const int index = FMath::RandRange(0, PowerUpArrLength - 1);
+		
+		//Spawn power up in location
+		if (PowerUpArr[index])
+		{
+			GetWorld()->SpawnActor<APowerUp>(PowerUpArr[index], Location, Rotation);
+		}
+		
+	}
 }

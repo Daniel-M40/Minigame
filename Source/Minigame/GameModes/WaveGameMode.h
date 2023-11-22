@@ -33,6 +33,16 @@ private:
 	TArray<AWaveSpawner*> WaveSpawnerArr;
 	
 	bool bAllWavesComplete = true;
+
+	//Length of power up array
+	int PowerUpArrLength = 0;
+
+	int PowerUpSpawnRate = 1;
+	
+	//Array of power up classes
+	UPROPERTY(EditAnywhere, Category="Power Ups")
+	TArray<TSubclassOf<class APowerUp>> PowerUpArr;
+
 	
 public:
 	//Shows the current wave
@@ -73,7 +83,7 @@ public:
 	//Increments the players overall score from killing enemies
 	void IncreaseScore();
 
-	void SpawnPowerUp(const FVector Location);
+	void SpawnPowerUp(const FVector Location, const FRotator Rotation);
 	
 #pragma endregion
 };

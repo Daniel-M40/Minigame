@@ -74,8 +74,8 @@ void ATurret::HandleDestruction()
 	}
 	else if (WaveModeGM)
 	{
-		//Decrease turret count
-		WaveModeGM->SpawnPowerUp(GetActorLocation());
+		//Spawn power up at location and rotation
+		WaveModeGM->SpawnPowerUp(GetActorLocation(), GetActorRotation());
 	}
 }
 
