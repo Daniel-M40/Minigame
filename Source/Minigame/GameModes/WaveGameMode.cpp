@@ -86,10 +86,17 @@ void AWaveGameMode::GetAllWaveSpawner()
 	UE_LOG(LogTemp, Warning, TEXT("Num of waves spawner: %d"), WaveSpawnerAmount);
 }
 
-void AWaveGameMode::GameEnd()
+void AWaveGameMode::EndGame()
 {
+	//Game is over, flag to show the GameOver Widget
+	bGameOver = true;
+
+	//Game over text
+	EndGameTxt = "Game Over!!";	
+	
 }
 
 void AWaveGameMode::IncreaseScore()
 {
+	PlayerScore++;
 }

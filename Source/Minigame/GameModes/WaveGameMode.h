@@ -21,7 +21,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Config")
 	bool bShowCursor = false;
-
+	
+	UPROPERTY(VisibleAnywhere, Category="Config")
 	int WaveSpawnerAmount;
 
 	FTimerHandle GetAllWavesTimer;
@@ -38,11 +39,21 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
 	int CurrentWave = 1;
 
+	//Contains the players score when they destroy an enemy
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Config")
+	int PlayerScore = 0;
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Game Over"))
+	bool bGameOver;
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "End Game Text"))
+	FString EndGameTxt;
+
 	
 #pragma endregion
 
 #pragma region Actions
-
+public:
 	void BeginPlay() override;
 
 	virtual void Tick(float DeltaSeconds) override;
@@ -57,7 +68,7 @@ public:
 	AWaveGameMode();
 	
 	//Function that ends the game
-	void GameEnd();
+	void EndGame();
 
 	//Increments the players overall score from killing enemies
 	void IncreaseScore();
