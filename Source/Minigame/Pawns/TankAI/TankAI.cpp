@@ -73,4 +73,9 @@ void ATankAI::IncreaseStats(const float HealthIncrement,const float SpeedIncreme
 	FireRate = FireRateDecrease;
 }
 
+void ATankAI::HandleDestruction()
+{
+	Super::HandleDestruction();
+}
+
 

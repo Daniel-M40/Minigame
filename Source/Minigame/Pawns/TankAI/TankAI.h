@@ -45,5 +45,7 @@ public:
 
 	void IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease);
 
+	virtual void HandleDestruction() override;
+	
 #pragma endregion
 };

@@ -73,6 +73,7 @@ public:
 	//Increments the players overall score from killing enemies
 	void IncreaseScore();
 
+	void SpawnPowerUp(const FVector Location);
 	
 #pragma endregion
 };

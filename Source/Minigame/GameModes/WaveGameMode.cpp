@@ -100,3 +100,8 @@ void AWaveGameMode::IncreaseScore()
 {
 	PlayerScore++;
 }
+
+void AWaveGameMode::SpawnPowerUp(const FVector Location)
+{
+	
+}

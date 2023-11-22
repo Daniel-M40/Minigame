@@ -5,6 +5,7 @@
 
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
+#include "Minigame/GameModes/WaveGameMode.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 
 
@@ -74,7 +75,7 @@ void ATurret::HandleDestruction()
 	else if (WaveModeGM)
 	{
 		//Decrease turret count
-		//WaveModeGM->DecreaseTurretAmount();
+		WaveModeGM->SpawnPowerUp(GetActorLocation());
 	}
 }
 
