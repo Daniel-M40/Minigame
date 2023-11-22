@@ -36,20 +36,6 @@ public:
 	
 	UPROPERTY(EditAnywhere, Category="Show Cursor")
 	bool bShowCursor = false;
-	
-	#pragma endregion
-
-	#pragma region Actions
-
-	void BeginPlay() override;
-	
-	void GetTimer();
-
-	void StopTimer();
-
-	void DecreaseTurretAmount();
-
-	void EndGame(bool bPlayerWon);
 
 	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Game Over"))
 	bool bGameOver;
@@ -59,6 +45,21 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Timer String"))
 	FString TimerText;
+	
+	#pragma endregion
+
+	#pragma region Actions
+
+public:
+	void BeginPlay() override;
+	
+	void GetTimer();
+
+	void StopTimer();
+
+	void DecreaseTurretAmount();
+
+	void EndGame(bool bPlayerWon);
 	
 	#pragma endregion
 	

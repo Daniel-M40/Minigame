@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
+#include "Minigame/GameModes/WaveGameMode.h"
 
 
 // Sets default values
@@ -151,7 +152,12 @@ void ATank::HandleDestruction()
 		//Player has died so end game
 		TimeTrailsGM->EndGame(false);
 	}
-
+	else if (WaveModeGM)
+	{
+		//Player has died so end game
+		WaveModeGM->EndGame();
+	}
+	
 	
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
