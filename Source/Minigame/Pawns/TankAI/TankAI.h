@@ -21,12 +21,15 @@ public:
 	//Range in which the actor stays away from the tank by
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float Range = 500.f;
+
+	class AAIController* AIController;
+	
 #pragma endregion
 
 #pragma region Actions
 
 private:
-	void MoveTo();
+	void MoveTankAI();
 	
 public:
 	// Sets default values for this pawn's properties

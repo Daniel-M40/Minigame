@@ -3,11 +3,12 @@
 
 #include "TankAI.h"
 
+#include "AIController.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 
 //Move enemy tank to player tank location
-void ATankAI::MoveTo()
+void ATankAI::MoveTankAI()
 {
 	if (Tank)
 	{
@@ -24,13 +25,17 @@ void ATankAI::MoveTo()
 		if (Distance >= Range)
 		{
 			//Move to location
-			SetActorLocation(
+			/*SetActorLocation(
 				FMath::VInterpTo(
 					CurrentLocation, //Actors current location
 					TankLocation, //Tanks current location (target location)
 					GetWorld()->GetDeltaSeconds(), //Delta time
 					MovementSpeed)
-			);
+			);*/
+
+			/*AIController = Cast<AAIController>(GetController());
+
+			AIController->MoveToLocation(TankLocation);*/
 		}
 	}
 
@@ -55,7 +60,7 @@ void ATankAI::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	MoveTo();
+	MoveTankAI();
 	
 }
 
