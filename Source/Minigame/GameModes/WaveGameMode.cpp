@@ -3,6 +3,8 @@
 
 #include "WaveGameMode.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Controllers/AI/TankAIController.h"
+#include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/PowerUps/PowerUp.h"
 #include "Minigame/WaveSpawner/WaveSpawner.h"
 
@@ -10,6 +12,8 @@ AWaveGameMode::AWaveGameMode()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	DefaultPawnClass = ATank::StaticClass();
 }
 
 

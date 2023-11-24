@@ -3,6 +3,7 @@
 
 #include "WaveSpawner.h"
 
+#include "Minigame/Pawns/TankAI/BaseAI.h"
 #include "Minigame/Pawns/TankAI/TankAI.h"
 
 
@@ -53,7 +54,7 @@ void AWaveSpawner::StartWave()
 void AWaveSpawner::SpawnEnemy()
 {
 	//Spawn enemies at wave spawner location
- 	ATankAI* Enemy = GetWorld()->SpawnActor<ATankAI>(EnemyClass, GetActorLocation(), GetActorRotation());
+ 	ABaseAI* Enemy = GetWorld()->SpawnActor<ABaseAI>(EnemyClass, GetActorLocation(), GetActorRotation());
 	
 	//Increase enemies stats
 	IncreaseStats();
@@ -93,7 +94,7 @@ void AWaveSpawner::AllEnemiesDead()
 	}
 	
 	//Loop though tank AI arr
-	for (ATankAI* TankAI : EnemyArr)
+	for (ABaseAI* TankAI : EnemyArr)
 	{
 		//Check if tank is valid
 		//Break out of loop if any tanks are alive
@@ -109,7 +110,6 @@ void AWaveSpawner::AllEnemiesDead()
 
 void AWaveSpawner::IncreaseStats()
 {
-	Health += HealthIncrease;
 	MovementSpeed += MovementSpeedIncrease;
 	FireRate -= FireRateDecrease;
 }

@@ -43,6 +43,7 @@ private:
 	UPROPERTY(EditAnywhere, Category="Power Ups")
 	TArray<TSubclassOf<class APowerUp>> PowerUpArr;
 
+	class ATankAIController* AIController;
 	
 public:
 	//Shows the current wave

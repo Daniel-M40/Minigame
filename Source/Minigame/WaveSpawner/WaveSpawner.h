@@ -54,10 +54,10 @@ private:
 	float ShootingDelay = .25f;
 	
 	UPROPERTY(EditAnywhere, Category = "Enemy")
-	TSubclassOf<class ATankAI> EnemyClass;
+	TSubclassOf<class ABaseAI> EnemyClass;
 
 	//Stores enemies that have been spawned
-	TArray<class ATankAI*> EnemyArr;
+	TArray<class ABaseAI*> EnemyArr;
 
 public:
 	

@@ -3,6 +3,8 @@
 
 #include "TankAIController.h"
 
+#include "Kismet/GameplayStatics.h"
+
 
 // Sets default values
 ATankAIController::ATankAIController()
@@ -22,5 +24,7 @@ void ATankAIController::BeginPlay()
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	
 }
+
 

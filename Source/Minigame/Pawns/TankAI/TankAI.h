@@ -22,7 +22,6 @@ public:
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float Range = 500.f;
 
-	class AAIController* AIController;
 	
 #pragma endregion
 

@@ -5,54 +5,22 @@
 
 #include "AIController.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Controllers/AI/TankAIController.h"
 #include "Minigame/Pawns/Tank/Tank.h"
-
-//Move enemy tank to player tank location
-void ATankAI::MoveTankAI()
-{
-	if (Tank)
-	{
-		//Get actor location
-		FVector	CurrentLocation = GetActorLocation();
-	
-		//Get tank location
-		FVector TankLocation = Tank->GetActorLocation();
-
-		//Find the distance of the tank
-		const float Distance = FVector::Dist(TankLocation, CurrentLocation);
-
-		//If actor is not in range move to the tank
-		if (Distance >= Range)
-		{
-			//Move to location
-			/*SetActorLocation(
-				FMath::VInterpTo(
-					CurrentLocation, //Actors current location
-					TankLocation, //Tanks current location (target location)
-					GetWorld()->GetDeltaSeconds(), //Delta time
-					MovementSpeed)
-			);*/
-
-			/*AIController = Cast<AAIController>(GetController());
-
-			AIController->MoveToLocation(TankLocation);*/
-		}
-	}
-
-}
+#include "Navigation/PathFollowingComponent.h"
 
 // Sets default values
 ATankAI::ATankAI()
 {
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 // Called when the game starts or when spawned
 void ATankAI::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -92,3 +60,33 @@ void ATankAI::HandleDestruction()
 }
 
 
+//Move enemy tank to player tank location
+void ATankAI::MoveTankAI()
+{
+	if (Tank)
+	{
+		//Get actor location
+		FVector	CurrentLocation = GetActorLocation();
+	
+		//Get tank location
+		FVector TankLocation = Tank->GetActorLocation();
+
+		//Find the distance of the tank
+		const float Distance = FVector::Dist(TankLocation, CurrentLocation);
+
+		//If actor is not in range move to the tank
+		if (Distance >= Range)
+		{
+			//Move to location
+			/*SetActorLocation(
+				FMath::VInterpTo(
+					CurrentLocation, //Actors current location
+					TankLocation, //Tanks current location (target location)
+					GetWorld()->GetDeltaSeconds(), //Delta time
+					MovementSpeed)
+			);*/
+
+		}
+	}
+
+}
