@@ -2,6 +2,7 @@
 
 
 #include "TimeTrailsGameMode.h"
+
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetStringLibrary.h"
 #include "Minigame/Pawns/Tank/Tank.h"
@@ -11,24 +12,27 @@ void ATimeTrailsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
+	//Set delay on spawning turrets
+	//Randomly Spawn Turrets in level
+	GetWorldTimerManager().SetTimer(SpawnTurretsHandle,
+		this, &ATimeTrailsGameMode::CreateTurrets, .5f, false, 0.0);
+
 	//Set timer 
 	GetWorldTimerManager().SetTimer(
 		TimerHandle, this, &ATimeTrailsGameMode::GetTimer, TimerRate, true, 0.0);
 
-	TArray<AActor*> TurretArr; //Array of turret actors in the level
+	/*TArray<AActor*> TurretArr; //Array of turret actors in the level
 	TurretClass = ATurret::StaticClass();
 
 	//Get all actors of class ATurret
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), TurretClass, TurretArr);
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), TurretClass, TurretArr);*/
 
 	//Store the amount of turrets
-	TurretAmount = TurretArr.Num();
+	/*TurretAmount = TurretArr.Num();*/
 
 	//Hide Mouse Cursor
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
 
-	//Set default pawn class
-	DefaultPawnClass = PawnClass;
 }
 
 void ATimeTrailsGameMode::GetTimer()
@@ -74,4 +78,29 @@ void ATimeTrailsGameMode::EndGame(bool bPlayerWon)
 		EndGameTxt = "Game Over!!";	
 	}
 	
+}
+
+void ATimeTrailsGameMode::CreateTurrets()
+{
+	FActorSpawnParameters SpawnParams;
+
+	// Forces the pawn to spawn even if colliding
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	
+	for (int i = 0; i < TurretSpawnAmount; i++)
+	{
+		if (TurretClass)
+		{
+			const float randX = FMath::FRandRange(-SpawnWidth, SpawnWidth);
+			const float randY = FMath::FRandRange(-SpawnHeight, SpawnHeight);
+			
+			FVector actorLocation = FVector(randX, randY, 10.f);
+			
+			ATurret* tempTurret = GetWorld()->SpawnActor<ATurret>(TurretClass, actorLocation, FRotator::ZeroRotator, SpawnParams);
+
+			TurretArr.Add(tempTurret);
+			
+			TurretAmount++;
+		}
+	}
 }

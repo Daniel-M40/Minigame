@@ -18,10 +18,23 @@ class MINIGAME_API ATimeTrailsGameMode : public AGameModeBase
 	
 private:
 	FTimerHandle TimerHandle;
+	
+	FTimerHandle SpawnTurretsHandle;
 
+	UPROPERTY(EditAnywhere, Category="Spawn Config")
+	int TurretSpawnAmount = 4;
+
+	UPROPERTY(EditAnywhere, Category="Spawn Config")
+	float SpawnWidth = 500.f;
+	
+	UPROPERTY(EditAnywhere, Category="Spawn Config")
+	float SpawnHeight = 500.f;
+	
 	UPROPERTY(EditAnywhere, Category="Config", meta=(DisplayName="Turret Class"))
 	TSubclassOf<class ATurret> TurretClass;
 
+	TArray<class ATurret*> TurretArr;
+	
 	UPROPERTY(EditAnywhere, Category="Config", meta=(DisplayName="Default Pawn Class"))
 	TSubclassOf<APawn> PawnClass;
 	
@@ -60,6 +73,10 @@ public:
 	void DecreaseTurretAmount();
 
 	void EndGame(bool bPlayerWon);
+
+
+private:
+	void CreateTurrets();
 	
 	#pragma endregion
 	
