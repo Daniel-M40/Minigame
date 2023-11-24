@@ -43,7 +43,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease);
+	void IncreaseStats(const float SpeedIncrement, const float FireRateDecrease);
 
 	virtual void HandleDestruction() override;
 	

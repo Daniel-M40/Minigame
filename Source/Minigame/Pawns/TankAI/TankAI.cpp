@@ -65,12 +65,20 @@ void ATankAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
-void ATankAI::IncreaseStats(const float HealthIncrement,const float SpeedIncrement, const float FireRateDecrease)
+void ATankAI::IncreaseStats(const float SpeedIncrement, const float FireRateDecrease)
 {
 	//Increase enemy status after wave is completed
-	Health = HealthIncrement;
 	MovementSpeed = SpeedIncrement;
-	FireRate = FireRateDecrease;
+	
+	//Fire rate cannot be less than 0 other wise it wont trigger the function
+	if (FireRate <= 0.f)
+	{
+		FireRate = 0.f;
+	}
+	else
+	{
+		FireRate = FireRateDecrease;
+	}
 }
 
 void ATankAI::HandleDestruction()
