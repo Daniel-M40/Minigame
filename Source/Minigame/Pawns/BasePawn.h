@@ -55,6 +55,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Total Health"))
 	float Health = 30.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Max Health"))
+	float MaxHealth = 30.f;
+
+	
 	//Rotation speed of the turret
 	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
 	float TurretRotationSpeed = 10.f;
