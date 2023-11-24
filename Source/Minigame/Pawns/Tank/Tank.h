@@ -34,7 +34,8 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Rotation Speed"))
 	float RotationSpeed = 100.f;
-	
+
+
 
 	//Input Config - Input actions and mapping context
 	UPROPERTY(EditAnywhere)

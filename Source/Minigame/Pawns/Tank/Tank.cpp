@@ -126,7 +126,11 @@ void ATank::EnableShooting()
 
 void ATank::IncreaseHealth(float healthValue)
 {
-	Health += healthValue;
+	//if tank hasn't reached the max health value increase players health
+	if (Health < MaxHealth)
+	{
+		Health += healthValue;
+	}
 }
 
 void ATank::EnableFasterMovement(float multiplier, float time)
