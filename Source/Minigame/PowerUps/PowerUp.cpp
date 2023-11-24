@@ -40,6 +40,10 @@ void APowerUp::BeginPlay()
 
 	//Get reference to the tank
 	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+	//Set timer to destroy item after certain time
+	GetWorldTimerManager().SetTimer(DespawnItemHandle, this, &APowerUp::DestroyItem,
+		DespawnItemTime,false);
 }
 
 // Called every frame
@@ -63,8 +67,12 @@ void APowerUp::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Other
 				GetActorLocation(), GetActorRotation(), PickupSoundVolume, PickupSoundPitch);
 		}
 	}
-		
+}
 
+
+void APowerUp::DestroyItem()
+{
+	Destroy();
 }
 
 

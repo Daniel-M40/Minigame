@@ -24,6 +24,11 @@ private:
 	UPROPERTY(EditAnywhere, Category="Config")
 	class USphereComponent* SphereComponent;
 
+	UPROPERTY(EditAnywhere, Category="Config")
+	float DespawnItemTime = 5.f;
+
+	FTimerHandle DespawnItemHandle;
+	
 protected:
 	UPROPERTY(EditAnywhere, Category="Sound")
 	class USoundBase* PickupSound;
@@ -38,6 +43,8 @@ protected:
 	
 public:
 	AWaveGameMode* WaveGameMode;
+
+	void DestroyItem();
 	
 #pragma endregion
 	
