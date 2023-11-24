@@ -57,7 +57,7 @@ void AWaveSpawner::SpawnEnemy()
 	
 	//Increase enemies stats
 	IncreaseStats();
-	Enemy->IncreaseStats(Health, MovementSpeed, FireRate);
+	Enemy->IncreaseStats(MovementSpeed, FireRate);
 
 	Enemy->ResetTimer();
 	
