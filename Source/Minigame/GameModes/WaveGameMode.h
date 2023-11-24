@@ -47,7 +47,7 @@ private:
 public:
 	//Shows the current wave
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
-	int CurrentWave = 1;
+	int CurrentWave = 0;
 
 	//Contains the players score when they destroy an enemy
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Config")
@@ -58,6 +58,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "End Game Text"))
 	FString EndGameTxt;
+
+	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Current Wave Text"))
+	FString CurrentWaveTxt;
 
 	
 #pragma endregion

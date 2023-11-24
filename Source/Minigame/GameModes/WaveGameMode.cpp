@@ -32,6 +32,7 @@ void AWaveGameMode::AllWavesComplete()
 	if (bAllWavesComplete)
 	{
 		CurrentWave++;
+		CurrentWaveTxt = "Wave: " + FString::FromInt(CurrentWave);
 
 		for (AWaveSpawner* WaveSpawner : WaveSpawnerArr)
 		{
