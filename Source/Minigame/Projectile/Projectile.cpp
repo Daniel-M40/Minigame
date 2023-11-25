@@ -5,6 +5,7 @@
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Pawns/Tank/Tank.h"
+#include "Minigame/Pawns/TankAI/BaseAI.h"
 #include "Minigame/Pawns/TankAI/TankAI.h"
 #include "Minigame/Pawns/Turret/Turret.h"
 #include "Particles/ParticleSystemComponent.h"
@@ -63,7 +64,8 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	AActor* CurrentOwner = GetOwner();
 	
 	//If the projectile collides with itself destroy it
-	if (!CurrentOwner)
+	//Or the actor we collided with is null
+	if (!CurrentOwner || OtherActor == nullptr)
 	{
 		Destroy();
 		return;
@@ -74,7 +76,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 
 	bool bIsAIController = CurrentInstigator && !CurrentInstigator->IsPlayerController();
 	bool bIsTurretActor = OtherActor->GetClass()->IsChildOf(ATurret::StaticClass());
-	bool bIsTankAIActor = OtherActor->GetClass()->IsChildOf(ATankAI::StaticClass());
+	bool bIsTankAIActor = OtherActor->GetClass()->IsChildOf(ABaseAI::StaticClass());
 	
 	//Return if the turret is shooting another controller
 	if (bIsAIController && bIsTurretActor)
@@ -83,7 +85,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 		return;
 	}
 
-	if (bIsTankAIActor && CurrentInstigator == nullptr)
+	if (bIsTankAIActor && bIsAIController)
 	{
 		Destroy();
 		return;
