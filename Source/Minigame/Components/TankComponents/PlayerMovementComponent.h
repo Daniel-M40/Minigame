@@ -14,6 +14,7 @@ class MINIGAME_API UPlayerMovementComponent : public UActorComponent
 
 #pragma region Properties
 private:
+	class ASuperTank* SuperTank;
 	class ATank* Player;
 	
 	//Player Controller

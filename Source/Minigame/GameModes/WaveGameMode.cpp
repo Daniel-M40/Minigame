@@ -140,9 +140,7 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	if (OriginalTank)
 	{
 		//Get player controller
-		PlayerController = OriginalTank->PlayerController;
-			
-		OriginalTank->SetActorHiddenInGame(true);
+		PlayerController = Cast<ATankController>(UGameplayStatics::GetPlayerController(this, 0));
 	}
 
 	if (PlayerController && SuperTankClass)
@@ -153,27 +151,24 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		FVector NewLocation = OriginalTank->GetActorLocation();
-		NewLocation.Z += 100.f;
-
 		FRotator NewRotation = OriginalTank->GetActorRotation();
 
 		
 		//Spawn new pawn
 		SuperTank = GetWorld()->SpawnActor<ASuperTank>(SuperTankClass, NewLocation, NewRotation, SpawnParams);
-
-		
-		//SuperTank->SetActorScale3D(FVector(2.5f,2.5f,2.5f));
 		
 		if (SuperTank)
 		{
 			//Posses super tank
 			PlayerController->UnPossess();
 			PlayerController->Possess(SuperTank);
+			SuperTank->EnableInput(PlayerController);
+
 
 			OriginalTank->Destroy();
 
 			//Set timer for how long we posses the tank for
-			//GetWorldTimerManager().SetTimer(PossesTimerHandle, this, &AWaveGameMode::PossesOriginalTank, duration, false);
+			GetWorldTimerManager().SetTimer(PossesTimerHandle, this, &AWaveGameMode::PossesOriginalTank, duration, false);
 		}
 			
 	}
@@ -182,23 +177,53 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 
 void AWaveGameMode::PossesOriginalTank()
 {
-	if (OriginalTank)
+	if (TankClass)
 	{
-		OriginalTank->SetActorHiddenInGame(false);
+		FActorSpawnParameters SpawnParams;
+
+		// Forces the pawn to spawn even if colliding
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		
-		PlayerController->UnPossess();
-		PlayerController->Possess(OriginalTank);
-
+		//Get Old pawn location and rotation
 		FVector NewLocation = OriginalTank->GetActorLocation();
-
 		FRotator NewRotation = OriginalTank->GetActorRotation();
 		
-		OriginalTank->SetActorLocation(NewLocation);
-		OriginalTank->SetActorRotation(NewRotation);
+		
+		//Spawn new pawn
+		OriginalTank = GetWorld()->SpawnActor<ATank>(TankClass, NewLocation, NewRotation, SpawnParams);
+		
 
-		SuperTank->SetActorHiddenInGame(true);
+		//Possess new pawn
+		PlayerController->UnPossess();
+		PlayerController->Possess(OriginalTank);
+ 		OriginalTank->EnableInput(PlayerController);
+
+		SuperTank->Destroy();
+		
 	}
+}
 
-	
-	//SuperTank->Destroy();
+void AWaveGameMode::SwapPawns(APawn* OldPawn, APawn* NewPawn)
+{
+	if (OldPawn)
+	{
+		//Hide old pawn
+		OldPawn->SetActorHiddenInGame(false);
+
+		//Possess new pawn
+		PlayerController->UnPossess();
+		PlayerController->Possess(NewPawn);
+
+		//Get Old pawn location and rotation
+		FVector NewLocation = OldPawn->GetActorLocation();
+		FRotator NewRotation = OldPawn->GetActorRotation();
+
+		//Set new pawn location and rotation to old pawns location
+		NewPawn->SetActorLocation(NewLocation);
+		NewPawn->SetActorRotation(NewRotation);
+
+		//Show pawn
+		NewPawn->SetActorHiddenInGame(true);
+		
+	}
 }

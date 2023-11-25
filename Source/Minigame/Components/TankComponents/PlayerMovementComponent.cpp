@@ -6,6 +6,7 @@
 #include "InputMappingContext.h"
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
+#include "Minigame/Pawns/SuperTank/SuperTank.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 
 // Sets default values for this component's properties
@@ -24,7 +25,9 @@ void UPlayerMovementComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	SuperTank = Cast<ASuperTank>(GetOwner());
 	Player = Cast<ATank>(GetOwner());
+	
 	
 	//Get Player controller
 	PlayerController = Cast<APlayerController>(Player->GetController());
@@ -69,8 +72,24 @@ void UPlayerMovementComponent::MoveHandler(const FInputActionValue& Value)
 
 void UPlayerMovementComponent::TurnHandler(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("TurnHandler Called"));
+	
 	Player->AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
+
+	if (SuperTank)
+	{
+		FRotator rotation = SuperTank->GetActorRotation();
+
+		UE_LOG(LogTemp, Warning, TEXT("Rotation: %s"), *rotation.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Value: %s"), *Value.ToString());
+
+		float val = Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed;
+
+		rotation.Yaw += val;
+		
+		SuperTank->SetActorRotation(rotation);
+		
+		//SuperTank->AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
+	}
 }
 
 void UPlayerMovementComponent::ShootHandler(const FInputActionValue& Value)

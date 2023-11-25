@@ -111,6 +111,8 @@ public:
 	
 	void PossesOriginalTank();
 
+	void SwapPawns(APawn* OldPawn, APawn* NewPawn);
+
 	
 #pragma endregion
 };
