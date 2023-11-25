@@ -8,6 +8,7 @@
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Minigame/Components/TankComponents/PlayerMovementComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
 
@@ -23,7 +24,9 @@ ATank::ATank()
 	
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	Camera->SetupAttachment(SpringArmComponent);
-
+	
+	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("PlayerMovementComponent"));
+	
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
 }
 
@@ -39,6 +42,8 @@ void ATank::BeginPlay()
 		SpringArmComponent->bEnableCameraRotationLag = CameraRotationLag;
 	}
 	
+	
+	
 	//Get Player controller
 	PlayerController = Cast<APlayerController>(GetController());
 
@@ -46,7 +51,7 @@ void ATank::BeginPlay()
 	if (PlayerController)
 	{
 		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
-		Subsystem->AddMappingContext(TankMappingContext, 0);
+		Subsystem->AddMappingContext(PlayerMovementComponent->MappingContext, 0);
 	}
 
 	//Set timer so that based on the fire rate it will shoot at the player
@@ -70,7 +75,7 @@ void ATank::Tick(float DeltaTime)
 		if (bIsDebugMode)
 			DrawDebugSphere(GetWorld(), HitResult.ImpactPoint, SphereRadius, SphereSegments, FColor::Red);
 
-		LookAtTarget(HitResult.ImpactPoint, TurretRotationSpeed);
+		LookAtTarget(HitResult.ImpactPoint, PlayerMovementComponent->RotationSpeed);
 
 	}
 }
@@ -84,30 +89,25 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	if (EIC)
 	{
-		EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ATank::MoveHandler);
-		EIC->BindAction(TurnAction, ETriggerEvent::Triggered, this, &ATank::TurnHandler);
-		EIC->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ATank::ShootHandler);
+		EIC->BindAction(PlayerMovementComponent->MoveAction, ETriggerEvent::Triggered, this, &ATank::MoveHandler);
+		EIC->BindAction(PlayerMovementComponent->TurnAction, ETriggerEvent::Triggered, this, &ATank::TurnHandler);
+		EIC->BindAction(PlayerMovementComponent->ShootAction, ETriggerEvent::Triggered, this, &ATank::ShootHandler);
 	}
 }
 
 void ATank::MoveHandler(const FInputActionValue& Value)
 {
 	//If we have picked up the speed power up multiply the movement speed by a value
-	if (bHasFasterMovement)
+	if (PlayerMovementComponent->bHasFasterMovement)
 	{
-		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds *
-			MovementSpeed * MovementSpeedMultiplier);
 	}
-	else
-	{
-		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds,
-						MovementSpeed);
-	}
+	
+	AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds);
 }
 
 void ATank::TurnHandler(const FInputActionValue& Value)
 {
-	AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
+	AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * PlayerMovementComponent->RotationSpeed);
 }
 
 void ATank::ShootHandler(const FInputActionValue& Value)
@@ -135,8 +135,8 @@ void ATank::IncreaseHealth(float healthValue)
 
 void ATank::EnableFasterMovement(float multiplier, float time)
 {
-	bHasFasterMovement = true;
-	MovementSpeedMultiplier = multiplier;
+	PlayerMovementComponent->bHasFasterMovement = true;
+	PlayerMovementComponent->MovementSpeedMultiplier = multiplier;
 	
 	//Set timer for disabling tanks faster movement
 	GetWorldTimerManager().SetTimer(SpeedTimerHandle, this, &ATank::DisableFasterMovement, time, false);
@@ -144,7 +144,7 @@ void ATank::EnableFasterMovement(float multiplier, float time)
 
 void ATank::DisableFasterMovement()
 {
-	bHasFasterMovement = false;
+	PlayerMovementComponent->bHasFasterMovement = false;
 }
 
 void ATank::HandleDestruction()

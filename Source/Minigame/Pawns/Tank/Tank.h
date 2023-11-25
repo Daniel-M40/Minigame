@@ -28,27 +28,12 @@ private:
 	UPROPERTY(EditAnywhere, Category="Camera Config")
 	bool CameraRotationLag = true;
 	
-	//Movement Config
-	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Movement Speed"))
-	float MovementSpeed = 100.f;
 
-	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Tank Rotation Speed"))
-	float RotationSpeed = 100.f;
+	//Custom Movement Component
+	UPROPERTY(EditAnywhere, Category="Movement Config")
+	class UPlayerMovementComponent* PlayerMovementComponent;
 
-
-
-	//Input Config - Input actions and mapping context
-	UPROPERTY(EditAnywhere)
-	class UInputMappingContext* TankMappingContext;
-
-	UPROPERTY(EditAnywhere)
-	class UInputAction* MoveAction;
-
-	UPROPERTY(EditAnywhere)
-	UInputAction* ShootAction;
-
-	UPROPERTY(EditAnywhere)
-	UInputAction* TurnAction;
+	
 
 	//Player Controller
 	class APlayerController* PlayerController;
@@ -59,13 +44,14 @@ private:
 	UPROPERTY(EditAnywhere, Category="Combat")
 	float FireRate = 1.f;
 
-	//Timer to delay the players firing by
-	FTimerHandle ShootTimeHandle;
 
 	bool bHasFasterMovement = false;
 
 	float MovementSpeedMultiplier = 2.f;
 
+	//Timer to delay the players firing by
+	FTimerHandle ShootTimeHandle;
+	
 	//Timer to increase the players speed for
 	FTimerHandle SpeedTimerHandle;
 	
