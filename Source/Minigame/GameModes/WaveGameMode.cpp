@@ -134,7 +134,7 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	OriginalTank = Tank;
 
 	//Set flag to show that we are spawning super tank
-	bSpawningTank = true;
+	bIsSuperTank = true;
 	
 	//hide in game
 	if (OriginalTank)
@@ -198,32 +198,9 @@ void AWaveGameMode::PossesOriginalTank()
 		PlayerController->Possess(OriginalTank);
  		OriginalTank->EnableInput(PlayerController);
 
-		SuperTank->Destroy();
+		bIsSuperTank = false;
 		
-	}
-}
-
-void AWaveGameMode::SwapPawns(APawn* OldPawn, APawn* NewPawn)
-{
-	if (OldPawn)
-	{
-		//Hide old pawn
-		OldPawn->SetActorHiddenInGame(false);
-
-		//Possess new pawn
-		PlayerController->UnPossess();
-		PlayerController->Possess(NewPawn);
-
-		//Get Old pawn location and rotation
-		FVector NewLocation = OldPawn->GetActorLocation();
-		FRotator NewRotation = OldPawn->GetActorRotation();
-
-		//Set new pawn location and rotation to old pawns location
-		NewPawn->SetActorLocation(NewLocation);
-		NewPawn->SetActorRotation(NewRotation);
-
-		//Show pawn
-		NewPawn->SetActorHiddenInGame(true);
+		SuperTank->Destroy();
 		
 	}
 }

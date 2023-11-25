@@ -80,7 +80,7 @@ public:
 	ATankController* PlayerController;
 
 public:
-	bool bSpawningTank = false;
+	bool bIsSuperTank = false;
 	
 #pragma endregion
 
@@ -110,8 +110,6 @@ public:
 	void SpawnSuperTank(class ATank* Tank, TSubclassOf<class ASuperTank> SuperTankClass, float duration);
 	
 	void PossesOriginalTank();
-
-	void SwapPawns(APawn* OldPawn, APawn* NewPawn);
 
 	
 #pragma endregion

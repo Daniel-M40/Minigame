@@ -39,7 +39,7 @@ void ASuperPower::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* Ot
 	//Check if actor is a kind of tank
 	if (OtherActor->GetClass()->IsChildOf(ATank::StaticClass()))
 	{
-		if (!WaveGameMode->bSpawningTank)
+		if (!WaveGameMode->bIsSuperTank)
 		{
 			WaveGameMode->SpawnSuperTank(Tank, SuperTankClass, Duration);		
 		}
