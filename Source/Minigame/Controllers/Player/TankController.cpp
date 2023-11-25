@@ -2,3 +2,10 @@
 
 
 #include "TankController.h"
+
+void ATankController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	DefaultMouseCursor = EMouseCursor::Hand;
+}

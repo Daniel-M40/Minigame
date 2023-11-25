@@ -40,6 +40,8 @@ private:
 	
 	int TurretAmount = 0;
 
+	class ATankController* PlayerController;
+
 public:
 	UPROPERTY(BlueprintReadOnly, Category="Time")
 	float Timer = 0.f;

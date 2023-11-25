@@ -36,7 +36,7 @@ private:
 	
 
 	//Player Controller
-	class APlayerController* PlayerController;
+	class ATankController* PlayerController;
 
 	//Shooting delay for tank
 	bool bCanShoot;
@@ -91,7 +91,7 @@ public:
 	void DisableFasterMovement();
 
 	void EnableShooting();
-
+	
 	#pragma endregion
 
 	virtual void HandleDestruction() override;

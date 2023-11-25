@@ -4,6 +4,7 @@
 #include "WaveGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Controllers/AI/TankAIController.h"
+#include "Minigame/Controllers/Player/TankController.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/PowerUps/PowerUp.h"
 #include "Minigame/WaveSpawner/WaveSpawner.h"
@@ -14,6 +15,7 @@ AWaveGameMode::AWaveGameMode()
 	PrimaryActorTick.bCanEverTick = true;
 
 	DefaultPawnClass = ATank::StaticClass();
+
 }
 
 
@@ -54,9 +56,7 @@ void AWaveGameMode::BeginPlay()
 	//Add getting all wave spawners on a delay
 	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
 		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
-
-	//Hide Mouse Cursor
-	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
+	
 
 	//Get length of power up array
 	PowerUpArrLength = PowerUpArr.Num();

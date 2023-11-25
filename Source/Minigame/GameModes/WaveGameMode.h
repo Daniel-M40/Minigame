@@ -6,6 +6,7 @@
 #include "GameFramework/GameModeBase.h"
 #include "WaveGameMode.generated.h"
 
+class ATankController;
 class AWaveSpawner;
 
 UCLASS()
@@ -44,6 +45,10 @@ private:
 	TArray<TSubclassOf<class APowerUp>> PowerUpArr;
 
 	class ATankAIController* AIController;
+
+	// Add this property to specify the default player controller class
+	UPROPERTY(EditDefaultsOnly, Category = "Player Controller")
+	TSubclassOf<ATankController> DefaultPlayerControllerClass;
 	
 public:
 	//Shows the current wave

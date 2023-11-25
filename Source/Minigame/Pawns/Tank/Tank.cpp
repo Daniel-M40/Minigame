@@ -11,7 +11,7 @@
 #include "Minigame/Components/TankComponents/PlayerMovementComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
-
+#include "Minigame/Controllers/Player/TankController.h"
 
 // Sets default values
 ATank::ATank()
@@ -45,7 +45,7 @@ void ATank::BeginPlay()
 	
 	
 	//Get Player controller
-	PlayerController = Cast<APlayerController>(GetController());
+	PlayerController = Cast<ATankController>(GetController());
 
 	//If we have player controller assign the mapping context to the subsystem
 	if (PlayerController)

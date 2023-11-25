@@ -13,4 +13,6 @@ UCLASS()
 class MINIGAME_API ATankController : public APlayerController
 {
 	GENERATED_BODY()
+
+	virtual void BeginPlay() override;
 };
