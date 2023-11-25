@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Controllers/AI/TankAIController.h"
 #include "Minigame/Controllers/Player/TankController.h"
+#include "Minigame/Pawns/SuperTank/SuperTank.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/PowerUps/PowerUp.h"
 #include "Minigame/WaveSpawner/WaveSpawner.h"
@@ -125,4 +126,79 @@ void AWaveGameMode::SpawnPowerUp(const FVector Location, const FRotator Rotation
 		}
 		
 	}
+}
+
+void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTankClass, float duration)
+{
+	//Assign tank to orignal tank
+	OriginalTank = Tank;
+
+	//Set flag to show that we are spawning super tank
+	bSpawningTank = true;
+	
+	//hide in game
+	if (OriginalTank)
+	{
+		//Get player controller
+		PlayerController = OriginalTank->PlayerController;
+			
+		OriginalTank->SetActorHiddenInGame(true);
+	}
+
+	if (PlayerController && SuperTankClass)
+	{
+		FActorSpawnParameters SpawnParams;
+
+		// Forces the pawn to spawn even if colliding
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		FVector NewLocation = OriginalTank->GetActorLocation();
+		NewLocation.Z += 100.f;
+
+		FRotator NewRotation = OriginalTank->GetActorRotation();
+
+		
+		//Spawn new pawn
+		SuperTank = GetWorld()->SpawnActor<ASuperTank>(SuperTankClass, NewLocation, NewRotation, SpawnParams);
+
+		
+		//SuperTank->SetActorScale3D(FVector(2.5f,2.5f,2.5f));
+		
+		if (SuperTank)
+		{
+			//Posses super tank
+			PlayerController->UnPossess();
+			PlayerController->Possess(SuperTank);
+
+			OriginalTank->Destroy();
+
+			//Set timer for how long we posses the tank for
+			//GetWorldTimerManager().SetTimer(PossesTimerHandle, this, &AWaveGameMode::PossesOriginalTank, duration, false);
+		}
+			
+	}
+	
+}
+
+void AWaveGameMode::PossesOriginalTank()
+{
+	if (OriginalTank)
+	{
+		OriginalTank->SetActorHiddenInGame(false);
+		
+		PlayerController->UnPossess();
+		PlayerController->Possess(OriginalTank);
+
+		FVector NewLocation = OriginalTank->GetActorLocation();
+
+		FRotator NewRotation = OriginalTank->GetActorRotation();
+		
+		OriginalTank->SetActorLocation(NewLocation);
+		OriginalTank->SetActorRotation(NewRotation);
+
+		SuperTank->SetActorHiddenInGame(true);
+	}
+
+	
+	//SuperTank->Destroy();
 }

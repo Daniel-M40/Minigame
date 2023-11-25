@@ -9,3 +9,15 @@ void ATankController::BeginPlay()
 
 	DefaultMouseCursor = EMouseCursor::Hand;
 }
+
+void ATankController::PossesPawn(float duration)
+{
+	
+}
+
+void ATankController::OnPossess(APawn* InPawn)
+{
+	Super::OnPossess(InPawn);
+
+	
+}

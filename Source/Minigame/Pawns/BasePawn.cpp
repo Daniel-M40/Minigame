@@ -126,7 +126,7 @@ float ABasePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	//Check if actor has died
 	if (Health <= 0.f)
 	{
-		HandleDestruction();
+		//HandleDestruction();
 	}
 	
 	return DamageAmount;

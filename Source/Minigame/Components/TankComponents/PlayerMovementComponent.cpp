@@ -69,6 +69,7 @@ void UPlayerMovementComponent::MoveHandler(const FInputActionValue& Value)
 
 void UPlayerMovementComponent::TurnHandler(const FInputActionValue& Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("TurnHandler Called"));
 	Player->AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
 }
 

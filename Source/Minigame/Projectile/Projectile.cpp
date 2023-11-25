@@ -63,37 +63,39 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 {
 	AActor* CurrentOwner = GetOwner();
 	
+	
+	
 	//If the projectile collides with itself destroy it
-	//Or the actor we collided with is null
-	if (!CurrentOwner || OtherActor == nullptr)
-	{
-		Destroy();
-		return;
-	}
-	
-	//Get the instigator of the projectile
-	AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
-
-	bool bIsAIController = CurrentInstigator && !CurrentInstigator->IsPlayerController();
-	bool bIsTurretActor = OtherActor->GetClass()->IsChildOf(ATurret::StaticClass());
-	bool bIsTankAIActor = OtherActor->GetClass()->IsChildOf(ABaseAI::StaticClass());
-	
-	//Return if the turret is shooting another controller
-	if (bIsAIController && bIsTurretActor)
+	if (!CurrentOwner)
 	{
 		Destroy();
 		return;
 	}
 
-	if (bIsTankAIActor && bIsAIController)
-	{
-		Destroy();
-		return;
-	}
 	
 	//If the actor is not it self apply damage
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
 	{
+		//Get the instigator of the projectile
+		AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
+
+		bool bIsAIController = CurrentInstigator && !CurrentInstigator->IsPlayerController();
+		bool bIsTurretActor = OtherActor->GetClass()->IsChildOf(ATurret::StaticClass());
+		bool bIsTankAIActor = OtherActor->GetClass()->IsChildOf(ABaseAI::StaticClass());
+		
+		//Return if the turret is shooting another controller
+		if (bIsAIController && bIsTurretActor)
+		{
+			Destroy();
+			return;
+		}
+
+		if (bIsTankAIActor && bIsAIController)
+		{
+			Destroy();
+			return;
+		}
+		
 		//Apply damage to current instigator
 		UGameplayStatics::ApplyDamage(
 			OtherActor, //actor that will be damaged

@@ -32,11 +32,7 @@ private:
 	//Custom Movement Component
 	UPROPERTY(EditAnywhere, Category="Movement Config")
 	class UPlayerMovementComponent* PlayerMovementComponent;
-
 	
-
-	//Player Controller
-	class ATankController* PlayerController;
 
 	//Shooting delay for tank
 	bool bCanShoot;
@@ -61,6 +57,9 @@ private:
 
 public:
 	bool bIsAlive = true;
+
+	//Player Controller
+	class ATankController* PlayerController;
 
 	#pragma  endregion
 	

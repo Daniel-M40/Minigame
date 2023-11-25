@@ -4,29 +4,32 @@
 
 #include "CoreMinimal.h"
 #include "Minigame/PowerUps/PowerUp.h"
-#include "Speed.generated.h"
+#include "SuperPower.generated.h"
 
 UCLASS()
-class MINIGAME_API ASpeed : public APowerUp
+class MINIGAME_API ASuperPower : public APowerUp
 {
 	GENERATED_BODY()
 
 #pragma region Properties
-	
+
 private:
-	UPROPERTY(EditAnywhere, Category="Config")
-	float SpeedIncreaseDuration = 5.f;
-
-	UPROPERTY(EditAnywhere, Category="Config")
-	float Multiplier = 5.f;
 	
-#pragma endregion
+	class ATankController* PlayerController;
 
-#pragma region Actions
+	UPROPERTY(EditAnywhere, Category="Config")
+	TSubclassOf<class ASuperTank> SuperTankClass;
+	
+	UPROPERTY(EditAnywhere, Category="Config")
+	float Duration = 10.f;
+
+public:
+	
+#pragma endregion 
 	
 public:
 	// Sets default values for this actor's properties
-	ASpeed();
+	ASuperPower();
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,9 +38,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-	
-	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
-	int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 
-#pragma endregion
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp,
+		int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
 };

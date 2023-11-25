@@ -27,6 +27,8 @@ private:
 	int WaveSpawnerAmount;
 
 	FTimerHandle GetAllWavesTimer;
+	
+	FTimerHandle PossesTimerHandle;
 
 	float GetAllWavesDelay = 2.5f;
 	
@@ -49,12 +51,19 @@ private:
 	// Add this property to specify the default player controller class
 	UPROPERTY(EditDefaultsOnly, Category = "Player Controller")
 	TSubclassOf<ATankController> DefaultPlayerControllerClass;
+
+	class ATank* OriginalTank;
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class ATank> TankClass;
+	
+	class ASuperTank* SuperTank;
 	
 public:
 	//Shows the current wave
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Wave Config")
 	int CurrentWave = 0;
-
+	
 	//Contains the players score when they destroy an enemy
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Config")
 	int PlayerScore = 0;
@@ -68,6 +77,10 @@ public:
 	UPROPERTY(BlueprintReadOnly, meta = (DisplayName = "Current Wave Text"))
 	FString CurrentWaveTxt;
 
+	ATankController* PlayerController;
+
+public:
+	bool bSpawningTank = false;
 	
 #pragma endregion
 
@@ -93,6 +106,11 @@ public:
 	void IncreaseScore();
 
 	void SpawnPowerUp(const FVector Location, const FRotator Rotation);
+
+	void SpawnSuperTank(class ATank* Tank, TSubclassOf<class ASuperTank> SuperTankClass, float duration);
+	
+	void PossesOriginalTank();
+
 	
 #pragma endregion
 };
