@@ -98,11 +98,16 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void ATank::MoveHandler(const FInputActionValue& Value)
 {
 	//If we have picked up the speed power up multiply the movement speed by a value
-	if (PlayerMovementComponent->bHasFasterMovement)
+	if (bHasFasterMovement)
 	{
+		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds *
+			PlayerMovementComponent->MovementSpeed * PlayerMovementComponent->MovementSpeedMultiplier);
 	}
-	
-	AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds);
+	else
+	{
+		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds,
+						PlayerMovementComponent->MovementSpeed);
+	}
 }
 
 void ATank::TurnHandler(const FInputActionValue& Value)
