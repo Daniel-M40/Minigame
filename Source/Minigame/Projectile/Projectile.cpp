@@ -64,7 +64,6 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	AActor* CurrentOwner = GetOwner();
 	
 	
-	
 	//If the projectile collides with itself destroy it
 	if (!CurrentOwner)
 	{
@@ -72,13 +71,12 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 		return;
 	}
 
+	//Get the instigator of the projectile
+	AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
 	
 	//If the actor is not it self apply damage
 	if (OtherActor && OtherActor != this && OtherActor != CurrentOwner)
-	{
-		//Get the instigator of the projectile
-		AController* CurrentInstigator = CurrentOwner->GetInstigatorController();
-
+	{		
 		bool bIsAIController = CurrentInstigator && !CurrentInstigator->IsPlayerController();
 		bool bIsTurretActor = OtherActor->GetClass()->IsChildOf(ATurret::StaticClass());
 		bool bIsTankAIActor = OtherActor->GetClass()->IsChildOf(ABaseAI::StaticClass());
