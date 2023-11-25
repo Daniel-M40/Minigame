@@ -84,7 +84,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	void Shoot();
 
 	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
 
@@ -99,7 +98,8 @@ public:
 
 	// Called when the actor takes damage
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
-
+	
+	void Shoot();
 	
 #pragma endregion
 };

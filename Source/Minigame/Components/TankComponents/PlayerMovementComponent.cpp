@@ -39,3 +39,44 @@ void UPlayerMovementComponent::TickComponent(float DeltaTime, ELevelTick TickTyp
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
 }
+
+void UPlayerMovementComponent::BindInputActions(UInputComponent* PlayerInputComponent)
+{
+	UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent);
+	
+	if (EIC)
+	{
+		EIC->BindAction(MoveAction, ETriggerEvent::Triggered, this, &UPlayerMovementComponent::MoveHandler);
+		EIC->BindAction(TurnAction, ETriggerEvent::Triggered, this, &UPlayerMovementComponent::TurnHandler);
+		EIC->BindAction(ShootAction, ETriggerEvent::Triggered, this, &UPlayerMovementComponent::ShootHandler);
+	}
+}
+
+void UPlayerMovementComponent::MoveHandler(const FInputActionValue& Value)
+{
+	//If we have picked up the speed power up multiply the movement speed by a value
+	if (bHasFasterMovement)
+	{
+		Player->AddMovementInput(Player->GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds *
+			MovementSpeed * MovementSpeedMultiplier);
+	}
+	else
+	{
+		Player->AddMovementInput(Player->GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds,
+						MovementSpeed);
+	}
+}
+
+void UPlayerMovementComponent::TurnHandler(const FInputActionValue& Value)
+{
+	Player->AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * RotationSpeed);
+}
+
+void UPlayerMovementComponent::ShootHandler(const FInputActionValue& Value)
+{
+	if (bCanShoot)
+	{
+		Player->Shoot();
+		bCanShoot = false;
+	}
+}

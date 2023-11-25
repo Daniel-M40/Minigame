@@ -66,6 +66,17 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
-		
+
+	void BindInputActions(class UInputComponent* PlayerInputComponent);
+
+	void MoveHandler(const struct FInputActionValue& Value);
+	
+	void TurnHandler(const struct FInputActionValue& Value);
+
+	void ShootHandler(const struct FInputActionValue& Value);
+
+	void EnableShooting();
+
+	
 #pragma endregion
 };

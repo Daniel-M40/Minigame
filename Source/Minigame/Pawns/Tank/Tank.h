@@ -81,13 +81,6 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void MoveHandler(const struct FInputActionValue& Value);
-	
-	void TurnHandler(const struct FInputActionValue& Value);
-
-	void ShootHandler(const struct FInputActionValue& Value);
-
-	void EnableShooting();
 	
 	//Increases the players health by a certain value
 	void IncreaseHealth(float healthValue);
@@ -96,7 +89,9 @@ public:
 	void EnableFasterMovement(float multiplier, float time);
 
 	void DisableFasterMovement();
-	
+
+	void EnableShooting();
+
 	#pragma endregion
 
 	virtual void HandleDestruction() override;

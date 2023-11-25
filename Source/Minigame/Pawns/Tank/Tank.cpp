@@ -84,50 +84,13 @@ void ATank::Tick(float DeltaTime)
 void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerMovementComponent->BindInputActions(PlayerInputComponent);
 	
-	UEnhancedInputComponent* EIC = Cast<UEnhancedInputComponent>(PlayerInputComponent);
-	
-	if (EIC)
-	{
-		EIC->BindAction(PlayerMovementComponent->MoveAction, ETriggerEvent::Triggered, this, &ATank::MoveHandler);
-		EIC->BindAction(PlayerMovementComponent->TurnAction, ETriggerEvent::Triggered, this, &ATank::TurnHandler);
-		EIC->BindAction(PlayerMovementComponent->ShootAction, ETriggerEvent::Triggered, this, &ATank::ShootHandler);
-	}
 }
 
-void ATank::MoveHandler(const FInputActionValue& Value)
-{
-	//If we have picked up the speed power up multiply the movement speed by a value
-	if (bHasFasterMovement)
-	{
-		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds *
-			PlayerMovementComponent->MovementSpeed * PlayerMovementComponent->MovementSpeedMultiplier);
-	}
-	else
-	{
-		AddMovementInput(GetActorForwardVector() * Value.Get<float>() * GetWorld()->DeltaTimeSeconds,
-						PlayerMovementComponent->MovementSpeed);
-	}
-}
 
-void ATank::TurnHandler(const FInputActionValue& Value)
-{
-	AddControllerYawInput(Value.Get<float>() * GetWorld()->DeltaTimeSeconds * PlayerMovementComponent->RotationSpeed);
-}
 
-void ATank::ShootHandler(const FInputActionValue& Value)
-{
-	if (bCanShoot)
-	{
-		Shoot();
-		bCanShoot = false;
-	}
-}
-
-void ATank::EnableShooting()
-{
-	bCanShoot = true;
-}
 
 void ATank::IncreaseHealth(float healthValue)
 {
@@ -138,19 +101,21 @@ void ATank::IncreaseHealth(float healthValue)
 	}
 }
 
-void ATank::EnableFasterMovement(float multiplier, float time)
+void ATank::EnableFasterMovement(float multiplier, float timer)
 {
 	PlayerMovementComponent->bHasFasterMovement = true;
 	PlayerMovementComponent->MovementSpeedMultiplier = multiplier;
 	
 	//Set timer for disabling tanks faster movement
-	GetWorldTimerManager().SetTimer(SpeedTimerHandle, this, &ATank::DisableFasterMovement, time, false);
+	GetWorldTimerManager().SetTimer(SpeedTimerHandle, this,
+		&ATank::DisableFasterMovement, timer, false);
 }
 
 void ATank::DisableFasterMovement()
 {
 	PlayerMovementComponent->bHasFasterMovement = false;
 }
+
 
 void ATank::HandleDestruction()
 {
@@ -173,3 +138,7 @@ void ATank::HandleDestruction()
 	bIsAlive = false;
 }
 
+void ATank::EnableShooting()
+{
+	PlayerMovementComponent->bCanShoot = true;
+}
