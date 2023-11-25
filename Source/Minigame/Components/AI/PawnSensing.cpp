@@ -4,6 +4,7 @@
 #include "PawnSensing.h"
 
 #include "AIController.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/TankAI/BaseAI.h"
@@ -17,7 +18,6 @@ UPawnSensing::UPawnSensing()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -25,8 +25,7 @@ UPawnSensing::UPawnSensing()
 void UPawnSensing::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
+	
 	
 }
 
@@ -35,8 +34,7 @@ void UPawnSensing::BeginPlay()
 void UPawnSensing::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
+	
 }
 
 void UPawnSensing::SensePawn(APawn& Pawn)

@@ -3,6 +3,7 @@
 
 #include "BaseAI.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
@@ -71,6 +72,13 @@ void ABaseAI::LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed)
 			LookAtRotation,
 			UGameplayStatics::GetWorldDeltaSeconds(this),
 			RotateSpeed));
+
+	//Update Yaw component for the tower mesh
+	BaseTowerMesh->SetWorldRotation(
+		FMath::RInterpTo(BaseTowerMesh->GetComponentRotation(),
+			LookAtRotation,
+			UGameplayStatics::GetWorldDeltaSeconds(this),
+			RotateSpeed));
 }
 
 void ABaseAI::HandleDestruction()
@@ -84,6 +92,17 @@ void ABaseAI::HandleDestruction()
 		UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation(),
 			DeathSoundVolume, DeathSoundPitch);
 
+	
+	if (TimeTrailsGM)
+	{
+		//Decrease turret count
+		TimeTrailsGM->DecreaseTurretAmount();
+	}
+	else if (WaveModeGM)
+	{
+		//Spawn power up at location and rotation
+		WaveModeGM->SpawnPowerUp(GetActorLocation(), GetActorRotation());
+	}
 	
 	Destroy();
 }
@@ -117,6 +136,8 @@ void ABaseAI::IncreaseStats(const float SpeedIncrement, const float FireRateDecr
 {
 	//Increase enemy status after wave is completed
 	MovementSpeed = SpeedIncrement;
+	
+	GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 	
 	//Fire rate cannot be less than 0 other wise it wont trigger the function
 	if (FireRate <= 0.f)
