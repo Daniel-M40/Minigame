@@ -94,7 +94,8 @@ void UPlayerMovementComponent::TurnHandler(const FInputActionValue& Value)
 
 void UPlayerMovementComponent::ShootHandler(const FInputActionValue& Value)
 {
-	if (bCanShoot)
+	//Check if the player can shoot or they have infinite fire rate
+	if (bCanShoot || Player->InfiniteFireRate)
 	{
 		Player->Shoot();
 		bCanShoot = false;

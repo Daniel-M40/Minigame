@@ -80,6 +80,10 @@ protected:
 
 	//Timer handle for setting a delay on when the turret can shoot
 	FTimerHandle TimerHandle;
+	
+	FTimerHandle RefreshPawnHandle;
+
+	float RefreshPawnTime = 2.5;
 
 
 public:
@@ -124,5 +128,7 @@ public:
 	bool IsActorInRange(const FVector& ActorLocation);
 
 	void ResetTimer();
+
+	void GetPlayerPawn();
 	
 };

@@ -38,11 +38,11 @@ void ABaseAI::BeginPlay()
 	//Assign game modes
 	TimeTrailsGM = Cast<ATimeTrailsGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	WaveModeGM = Cast<AWaveGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
-
-	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
+	
 
 	//Set timer so that based on the fire rate it will shoot at the player
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseAI::CheckFireCondition, FireRate, true);
+	GetWorldTimerManager().SetTimer(RefreshPawnHandle, this, &ABaseAI::GetPlayerPawn, RefreshPawnTime, true);
 
 	
 }
@@ -197,5 +197,10 @@ void ABaseAI::ResetTimer()
 	//Set timer so that based on the fire rate it will shoot at the player
 	//Set new timer with new fire rate
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseAI::CheckFireCondition, FireRate, true);
+}
+
+void ABaseAI::GetPlayerPawn()
+{
+	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));
 }
 

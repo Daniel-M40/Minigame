@@ -35,6 +35,8 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 
+	InfiniteFireRate = false;
+	
 	//Spring arm config
 	if (SpringArmComponent)
 	{

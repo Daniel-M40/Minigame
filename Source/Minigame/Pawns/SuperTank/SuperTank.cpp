@@ -15,6 +15,8 @@ ASuperTank::ASuperTank()
 void ASuperTank::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InfiniteFireRate = true;
 	
 }
 

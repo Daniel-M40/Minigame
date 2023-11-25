@@ -185,8 +185,8 @@ void AWaveGameMode::PossesOriginalTank()
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		
 		//Get Old pawn location and rotation
-		FVector NewLocation = OriginalTank->GetActorLocation();
-		FRotator NewRotation = OriginalTank->GetActorRotation();
+		FVector NewLocation = SuperTank->GetActorLocation();
+		FRotator NewRotation = SuperTank->GetActorRotation();
 		
 		
 		//Spawn new pawn

@@ -36,11 +36,7 @@ private:
 
 	//Shooting delay for tank
 	bool bCanShoot;
-
-	UPROPERTY(EditAnywhere, Category="Combat")
-	float FireRate = 1.f;
-
-
+	
 	bool bHasFasterMovement = false;
 
 	float MovementSpeedMultiplier = 2.f;
@@ -51,11 +47,19 @@ private:
 	//Timer to increase the players speed for
 	FTimerHandle SpeedTimerHandle;
 	
+	UPROPERTY(EditAnywhere, Category="Combat")
+	float FireRate = 1.f;
+
+protected:
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
 	bool bIsDebugMode = false;
-
+	
 public:
+
+	//Flag that allows the user to infinitely fire
+	bool InfiniteFireRate = false;
+	
 	bool bIsAlive = true;
 
 	//Player Controller
