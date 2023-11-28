@@ -100,7 +100,11 @@ void AWaveGameMode::EndGame()
 	bGameOver = true;
 
 	//Game over text
-	EndGameTxt = "Game Over!!";	
+	EndGameTxt = "Game Over!!";
+
+
+	//Remove HUD when game is over
+	PlayerController->RemoveHUD();
 	
 }
 

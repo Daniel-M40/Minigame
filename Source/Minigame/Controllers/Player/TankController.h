@@ -17,8 +17,13 @@ class MINIGAME_API ATankController : public APlayerController
 #pragma region Properties
 
 private:
+
+	UPROPERTY(EditAnywhere, Category="UI")
+	TSubclassOf<class UUserWidget> PlayerHUDClass;
 	
-	FTimerHandle PossesTimerHandle;
+	UPROPERTY(EditAnywhere, Category="UI")
+	UUserWidget* PlayerHUD;
+	
 
 public:
 	bool bHasSpawnedTank = false;
@@ -32,7 +37,7 @@ public:
 	
 	virtual void BeginPlay() override;
 
-	void PossesPawn(float duration);
+	void RemoveHUD();
 
 	virtual void OnPossess(APawn* InPawn) override;
 	

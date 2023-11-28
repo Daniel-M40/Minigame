@@ -3,17 +3,31 @@
 
 #include "TankController.h"
 
+#include "Blueprint/UserWidget.h"
+
 void ATankController::BeginPlay()
 {
 	Super::BeginPlay();
 
 	DefaultMouseCursor = EMouseCursor::Hand;
+
+	//Create HUD widget for viewport
+	if (PlayerHUDClass)
+	{
+		PlayerHUD = CreateWidget(this, PlayerHUDClass);
+
+		if (PlayerHUD)
+		{
+			PlayerHUD->AddToViewport();
+		}
+	}
 }
 
-void ATankController::PossesPawn(float duration)
+void ATankController::RemoveHUD()
 {
-	
+	PlayerHUD->RemoveFromViewport();
 }
+
 
 void ATankController::OnPossess(APawn* InPawn)
 {
