@@ -16,16 +16,21 @@ void ATankController::BeginPlay()
 	{
 		PlayerHUD = CreateWidget(this, PlayerHUDClass);
 
-		if (PlayerHUD)
-		{
-			PlayerHUD->AddToViewport();
-		}
+		ShowHUD();
 	}
 }
 
 void ATankController::RemoveHUD()
 {
 	PlayerHUD->RemoveFromViewport();
+}
+
+void ATankController::ShowHUD()
+{
+	if (PlayerHUD)
+	{
+		PlayerHUD->AddToViewport();
+	}
 }
 
 

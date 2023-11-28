@@ -170,7 +170,7 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 
 
 			OriginalTank->Destroy();
-
+			
 			//Set timer for how long we posses the tank for
 			GetWorldTimerManager().SetTimer(PossesTimerHandle, this, &AWaveGameMode::PossesOriginalTank, duration, false);
 		}
@@ -178,6 +178,7 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	}
 	
 }
+
 
 void AWaveGameMode::PossesOriginalTank()
 {
@@ -204,6 +205,8 @@ void AWaveGameMode::PossesOriginalTank()
 
 		bIsSuperTank = false;
 		
+		
+		//Destroy super tank
 		SuperTank->Destroy();
 		
 	}

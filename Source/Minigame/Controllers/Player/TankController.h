@@ -39,6 +39,8 @@ public:
 
 	void RemoveHUD();
 
+	void ShowHUD();
+
 	virtual void OnPossess(APawn* InPawn) override;
 	
 #pragma endregion 

@@ -105,10 +105,13 @@ public:
 	//Increments the players overall score from killing enemies
 	void IncreaseScore();
 
+	//Randomly spawn power up at location
 	void SpawnPowerUp(const FVector Location, const FRotator Rotation);
 
+	//Spawn super tank for a certain duration
 	void SpawnSuperTank(class ATank* Tank, TSubclassOf<class ASuperTank> SuperTankClass, float duration);
-	
+
+	//Repossess original tank
 	void PossesOriginalTank();
 
 	
