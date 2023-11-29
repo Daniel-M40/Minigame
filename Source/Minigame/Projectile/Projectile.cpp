@@ -62,7 +62,7 @@ void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimi
 	AActor* CurrentOwner = GetOwner();
 	
 	
-	//If the projectile collides with itself destroy it
+	//If we dont have a current owner destroy the projectile
 	if (!CurrentOwner)
 	{
 		Destroy();

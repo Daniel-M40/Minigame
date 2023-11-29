@@ -30,10 +30,10 @@ void ATimeTrailsGameMode::BeginPlay()
 void ATimeTrailsGameMode::GetTimer()
 {
 	//Get current game time in seconds, also effected when game is paused and slo-mo
-	UKismetSystemLibrary::GetGameTimeInSeconds(this);
+	Timer = UKismetSystemLibrary::GetGameTimeInSeconds(this);
 
 	//Convert the time in seconds to string to display
-	TimerText = UKismetStringLibrary::TimeSecondsToString(UKismetSystemLibrary::GetGameTimeInSeconds(this));
+	TimerText = UKismetStringLibrary::TimeSecondsToString(Timer);
 }
 
 void ATimeTrailsGameMode::StopTimer()
