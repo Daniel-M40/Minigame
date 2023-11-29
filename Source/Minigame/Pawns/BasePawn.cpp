@@ -75,6 +75,16 @@ void ABasePawn::LookAtTarget(const FVector& LookAtTarget, const float RotateSpee
 			RotateSpeed));	
 }
 
+void ABasePawn::SetHealth(float val)
+{
+	Health = val;
+}
+
+float ABasePawn::GetHealth()
+{
+	return Health;
+}
+
 
 void ABasePawn::HandleDestruction()
 {

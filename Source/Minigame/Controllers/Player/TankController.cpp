@@ -22,7 +22,11 @@ void ATankController::BeginPlay()
 
 void ATankController::RemoveHUD()
 {
-	PlayerHUD->RemoveFromViewport();
+	//Remove HUD from viewport
+	if (PlayerHUD)
+	{
+		PlayerHUD->RemoveFromParent();
+	}
 }
 
 void ATankController::ShowHUD()

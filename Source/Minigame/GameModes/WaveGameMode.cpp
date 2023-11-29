@@ -2,6 +2,7 @@
 
 
 #include "WaveGameMode.h"
+
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Controllers/AI/TankAIController.h"
 #include "Minigame/Controllers/Player/TankController.h"
@@ -19,6 +20,25 @@ AWaveGameMode::AWaveGameMode()
 
 }
 
+void AWaveGameMode::BeginPlay()
+{
+	Super::BeginPlay();
+
+	//Add getting all wave spawners on a delay
+	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
+		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
+	
+
+	//Get length of power up array
+	PowerUpArrLength = PowerUpArr.Num();
+}
+
+void AWaveGameMode::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	AllWavesComplete();
+}
 
 void AWaveGameMode::AllWavesComplete()
 {
@@ -48,26 +68,6 @@ void AWaveGameMode::AllWavesComplete()
 
 		bAllWavesComplete = false;
 	}
-}
-
-void AWaveGameMode::BeginPlay()
-{
-	Super::BeginPlay();
-
-	//Add getting all wave spawners on a delay
-	GetWorldTimerManager().SetTimer(GetAllWavesTimer, this,
-		&AWaveGameMode::GetAllWaveSpawner, GetAllWavesDelay, false);
-	
-
-	//Get length of power up array
-	PowerUpArrLength = PowerUpArr.Num();
-}
-
-void AWaveGameMode::Tick(float DeltaSeconds)
-{
-	Super::Tick(DeltaSeconds);
-
-	AllWavesComplete();
 }
 
 void AWaveGameMode::GetAllWaveSpawner()
@@ -140,7 +140,6 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	//Set flag to show that we are spawning super tank
 	bIsSuperTank = true;
 	
-	//hide in game
 	if (OriginalTank)
 	{
 		//Get player controller
@@ -168,7 +167,9 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 			PlayerController->Possess(SuperTank);
 			SuperTank->EnableInput(PlayerController);
 
-
+			//Set health to what the player currently had
+			SuperTank->SetHealth(OriginalTank->GetHealth());
+			
 			OriginalTank->Destroy();
 			
 			//Set timer for how long we posses the tank for
@@ -178,7 +179,6 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	}
 	
 }
-
 
 void AWaveGameMode::PossesOriginalTank()
 {
@@ -205,6 +205,9 @@ void AWaveGameMode::PossesOriginalTank()
 
 		bIsSuperTank = false;
 		
+
+		//Set health to what the player currently had
+		OriginalTank->SetHealth(SuperTank->GetHealth());
 		
 		//Destroy super tank
 		SuperTank->Destroy();
