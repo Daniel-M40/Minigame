@@ -2,9 +2,7 @@
 
 
 #include "WaveSpawner.h"
-
 #include "Minigame/Pawns/TankAI/BaseAI.h"
-#include "Minigame/Pawns/TankAI/TankAI.h"
 
 
 // Sets default values

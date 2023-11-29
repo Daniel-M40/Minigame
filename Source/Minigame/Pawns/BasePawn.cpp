@@ -4,13 +4,10 @@
 #include "BasePawn.h"
 
 #include "Components/SphereComponent.h"
-#include "Evaluation/IMovieSceneEvaluationHook.h"
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
 #include "Minigame/Projectile/Projectile.h"
-#include "TankAI/TankAI.h"
-#include "Turret/Turret.h"
 
 
 // Sets default values
@@ -75,18 +72,7 @@ void ABasePawn::LookAtTarget(const FVector& LookAtTarget, const float RotateSpee
 		FMath::RInterpTo(BaseTurretMesh->GetComponentRotation(),
 			LookAtRotation,
 			UGameplayStatics::GetWorldDeltaSeconds(this),
-			RotateSpeed));
-
-	//If class is Tank AI then rotate the base tower mesh as well as the turret
-	if (GetClass()->IsChildOf(ATankAI::StaticClass()))
-	{
-		BaseTowerMesh->SetWorldRotation(
-		FMath::RInterpTo(BaseTowerMesh->GetComponentRotation(),
-			LookAtRotation,
-			UGameplayStatics::GetWorldDeltaSeconds(this),
-			RotateSpeed));
-	}
-	
+			RotateSpeed));	
 }
 
 

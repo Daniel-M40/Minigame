@@ -8,7 +8,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/TankAI/BaseAI.h"
-#include "Minigame/Pawns/TankAI/TankAI.h"
 
 
 // Sets default values for this component's properties

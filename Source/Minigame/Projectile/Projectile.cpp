@@ -4,9 +4,7 @@
 #include "Projectile.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/TankAI/BaseAI.h"
-#include "Minigame/Pawns/TankAI/TankAI.h"
 #include "Minigame/Pawns/Turret/Turret.h"
 #include "Particles/ParticleSystemComponent.h"
 
