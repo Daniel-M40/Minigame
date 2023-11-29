@@ -92,7 +92,7 @@ private:
 	void SpawnEnemy();
 
 	//Check if all the enemies are dead
-	void AllEnemiesDead();
+	void AreAllEnemiesDead();
 
 	void IncreaseStats();
 	

@@ -152,7 +152,7 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 		FActorSpawnParameters SpawnParams;
 
 		// Forces the pawn to spawn even if colliding
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 
 		FVector NewLocation = OriginalTank->GetActorLocation();
 		FRotator NewRotation = OriginalTank->GetActorRotation();
@@ -187,7 +187,7 @@ void AWaveGameMode::PossesOriginalTank()
 		FActorSpawnParameters SpawnParams;
 
 		// Forces the pawn to spawn even if colliding
-		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		
 		//Get Old pawn location and rotation
 		FVector NewLocation = SuperTank->GetActorLocation();

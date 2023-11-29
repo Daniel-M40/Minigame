@@ -27,9 +27,11 @@ void AWaveSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	//Check if the wave is not complete then check if all the enemies are complete
 	if (!bWaveComplete)
 	{
-		AllEnemiesDead();
+		//Check if all enemies are dead
+		AreAllEnemiesDead();
 	}
 }
 
@@ -83,7 +85,7 @@ void AWaveSpawner::SpawnEnemy()
 	}
 }
 
-void AWaveSpawner::AllEnemiesDead()
+void AWaveSpawner::AreAllEnemiesDead()
 {
 	bWaveComplete = false;
 
