@@ -16,19 +16,27 @@ class MINIGAME_API ATankController : public APlayerController
 
 #pragma region Properties
 
+#pragma region Properties
+	
 private:
 
+	//Player HUD Widget class
 	UPROPERTY(EditAnywhere, Category="UI")
 	TSubclassOf<class UUserWidget> PlayerHUDClass;
-	
+
+	//Contains created HUD Widget
 	UPROPERTY(EditAnywhere, Category="UI")
 	UUserWidget* PlayerHUD;
 	
 
 public:
+	//Flag to check if the tank is spawned when swapping between super <--> original
 	bool bHasSpawnedTank = false;
 
+	//Flag to show if we are in the process of spawning the tank
 	bool bIsSpawningTank = false;
+
+#pragma endregion
 	
 #pragma endregion 
 
@@ -37,11 +45,12 @@ public:
 	
 	virtual void BeginPlay() override;
 
+	//Removes HUD from viewport
 	void RemoveHUD();
 
+	//Adds HUD to viewport
 	void ShowHUD();
 
-	virtual void OnPossess(APawn* InPawn) override;
 	
 #pragma endregion 
 

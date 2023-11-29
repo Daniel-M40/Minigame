@@ -19,16 +19,8 @@ void ATimeTrailsGameMode::BeginPlay()
 
 	//Set timer 
 	GetWorldTimerManager().SetTimer(
-		TimerHandle, this, &ATimeTrailsGameMode::GetTimer, TimerRate, true, 0.0);
-
-	/*TArray<AActor*> TurretArr; //Array of turret actors in the level
-	TurretClass = ATurret::StaticClass();
-
-	//Get all actors of class ATurret
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), TurretClass, TurretArr);*/
-
-	//Store the amount of turrets
-	/*TurretAmount = TurretArr.Num();*/
+		PlayerTimerHandle, this, &ATimeTrailsGameMode::GetTimer, TimerRate, true, 0.0);
+	
 
 	//Hide Mouse Cursor
 	UGameplayStatics::GetPlayerController(this, 0)->SetShowMouseCursor(bShowCursor);
@@ -46,7 +38,7 @@ void ATimeTrailsGameMode::GetTimer()
 
 void ATimeTrailsGameMode::StopTimer()
 {
-	GetWorldTimerManager().ClearTimer(TimerHandle);
+	GetWorldTimerManager().ClearTimer(PlayerTimerHandle);
 }
 
 void ATimeTrailsGameMode::DecreaseTurretAmount()

@@ -91,12 +91,15 @@ public:
 	//Function that creates a timer that increases the players speed by
 	void EnableFasterMovement(float multiplier, float time);
 
+	//Disables faster movement after certain time
 	void DisableFasterMovement();
 
+	//Enables the players shooting
 	void EnableShooting();
 	
 	#pragma endregion
 
+	//Handles the destruction of the tank
 	virtual void HandleDestruction() override;
 
 };

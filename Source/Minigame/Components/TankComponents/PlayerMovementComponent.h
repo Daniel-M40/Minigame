@@ -14,7 +14,10 @@ class MINIGAME_API UPlayerMovementComponent : public UActorComponent
 
 #pragma region Properties
 private:
+	//Reference to super tank
 	class ASuperTank* SuperTank;
+
+	//Reference to tank
 	class ATank* Player;
 	
 	//Player Controller
@@ -24,8 +27,10 @@ public:
 	//Shooting delay for tank
 	bool bCanShoot = true;
 
+	//Flag gto check if the player has faster movement or not
 	bool bHasFasterMovement = false;
 
+	//Value to multiply the speed by
 	float MovementSpeedMultiplier = 2.f;
 
 	//Movement Config
@@ -68,15 +73,18 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 
+	//Binds actions to EIC
 	void BindInputActions(class UInputComponent* PlayerInputComponent);
 
+	//Handles forward and backward movement
 	void MoveHandler(const struct FInputActionValue& Value);
-	
+
+	//Handles turn rotation
 	void TurnHandler(const struct FInputActionValue& Value);
 
+	//Handles shooting projectiles
 	void ShootHandler(const struct FInputActionValue& Value);
 
-	void EnableShooting();
 
 	
 #pragma endregion

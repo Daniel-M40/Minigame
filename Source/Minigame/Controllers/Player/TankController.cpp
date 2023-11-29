@@ -33,10 +33,3 @@ void ATankController::ShowHUD()
 	}
 }
 
-
-void ATankController::OnPossess(APawn* InPawn)
-{
-	Super::OnPossess(InPawn);
-
-	
-}

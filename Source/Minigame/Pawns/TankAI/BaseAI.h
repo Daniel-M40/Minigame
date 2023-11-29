@@ -103,8 +103,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	//Spawn bullet projectile 
 	void Shoot();
 
+	//Make turret mesh rotate towards a point at a rotation speed
 	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
 
 	virtual void HandleDestruction();
@@ -116,6 +118,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	//Increase stats after every wave
 	void IncreaseStats(const float SpeedIncrement, const float FireRateDecrease);
 
 	// Called when the actor takes damage
@@ -129,6 +132,7 @@ public:
 
 	void ResetTimer();
 
+	//Get the tank pawn
 	void GetPlayerPawn();
 	
 };
