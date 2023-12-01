@@ -29,6 +29,8 @@ void ATimeTrailsGameMode::BeginPlay()
 
 void ATimeTrailsGameMode::GetTimer()
 {
+	double Timer;
+
 	//Get current game time in seconds, also effected when game is paused and slo-mo
 	Timer = UKismetSystemLibrary::GetGameTimeInSeconds(this);
 
