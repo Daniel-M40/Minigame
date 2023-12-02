@@ -7,6 +7,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "EnhancedInputComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Minigame/Components/TankComponents/PlayerMovementComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
@@ -25,6 +26,8 @@ ATank::ATank()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
 	Camera->SetupAttachment(SpringArmComponent);
 	
+	FloatingPawnMovement = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("FloatingPawnMovement"));
+
 	PlayerMovementComponent = CreateDefaultSubobject<UPlayerMovementComponent>(TEXT("PlayerMovementComponent"));
 	
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
@@ -43,7 +46,6 @@ void ATank::BeginPlay()
 		SpringArmComponent->bEnableCameraLag = CameraLag;
 		SpringArmComponent->bEnableCameraRotationLag = CameraRotationLag;
 	}
-	
 	
 	
 	//Get Player controller
@@ -107,6 +109,13 @@ void ATank::EnableFasterMovement(float multiplier, float timer)
 {
 	PlayerMovementComponent->bHasFasterMovement = true;
 	PlayerMovementComponent->MovementSpeedMultiplier = multiplier;
+
+	//If we have picked up the speed power up multiply the movement speed by a value
+	if (FloatingPawnMovement)
+	{
+		FloatingPawnMovement->MaxSpeed = PlayerMovementComponent->MovementSpeed * MovementSpeedMultiplier;
+	}
+	
 	
 	//Set timer for disabling tanks faster movement
 	GetWorldTimerManager().SetTimer(SpeedTimerHandle, this,
@@ -116,6 +125,12 @@ void ATank::EnableFasterMovement(float multiplier, float timer)
 void ATank::DisableFasterMovement()
 {
 	PlayerMovementComponent->bHasFasterMovement = false;
+	
+	//Set value back to default value
+	if (FloatingPawnMovement)
+	{
+		FloatingPawnMovement->MaxSpeed = PlayerMovementComponent->MovementSpeed;
+	}
 }
 
 

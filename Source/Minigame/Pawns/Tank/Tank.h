@@ -28,28 +28,37 @@ private:
 	UPROPERTY(EditAnywhere, Category="Camera Config")
 	bool CameraRotationLag = true;
 	
-
+	#pragma region Movement Config
+	
 	//Custom Movement Component
 	UPROPERTY(EditAnywhere, Category="Movement Config")
 	class UPlayerMovementComponent* PlayerMovementComponent;
 	
-
-	//Shooting delay for tank
-	bool bCanShoot;
 	
+	//Flag to see if player has faster movement
 	bool bHasFasterMovement = false;
 
+	//Value to multiply the max speed by
 	float MovementSpeedMultiplier = 2.f;
 
+	#pragma endregion
+	
+	#pragma region Shooting
+	
 	//Timer to delay the players firing by
 	FTimerHandle ShootTimeHandle;
 	
 	//Timer to increase the players speed for
 	FTimerHandle SpeedTimerHandle;
+
+	//Shooting delay for tank
+	bool bCanShoot;
 	
 	UPROPERTY(EditAnywhere, Category="Combat")
 	float FireRate = 1.f;
 
+	#pragma endregion
+	
 protected:
 	//Debug Mode
 	UPROPERTY(EditAnywhere, Category="Debugging", meta=(DisplayName="Show Debug Spheres"))
@@ -65,6 +74,9 @@ public:
 	//Player Controller
 	class ATankController* PlayerController;
 
+	UPROPERTY(EditAnywhere, Category="Movement Config")
+	class UFloatingPawnMovement* FloatingPawnMovement;
+	
 	#pragma  endregion
 	
 	#pragma region Actions

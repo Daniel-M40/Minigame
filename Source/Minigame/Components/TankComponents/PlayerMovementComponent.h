@@ -40,7 +40,8 @@ public:
 	UPROPERTY(EditAnywhere, Category="Movement Config", meta=(DisplayName="Rotation Speed"))
 	float RotationSpeed = 100.f;
 
-	
+	//Reference to component from actor
+	class UFloatingPawnMovement* FloatingPawnMovement;
 
 	//Input Config - Input actions and mapping context
 	UPROPERTY(EditAnywhere)
