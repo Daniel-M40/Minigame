@@ -96,6 +96,10 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 
 
+/**
+ * Increase the players health by a value
+ * @param healthValue value to increase the health value
+ */
 void ATank::IncreaseHealth(float healthValue)
 {
 	//if tank hasn't reached the max health value increase players health
@@ -105,6 +109,12 @@ void ATank::IncreaseHealth(float healthValue)
 	}
 }
 
+
+/**
+ * Enables players faster movement for a multiplier and duration
+ * @param multiplier value to multiply the players speed by
+ * @param timer how long the speed increase will last
+ */
 void ATank::EnableFasterMovement(float multiplier, float timer)
 {
 	PlayerMovementComponent->bHasFasterMovement = true;
@@ -122,6 +132,10 @@ void ATank::EnableFasterMovement(float multiplier, float timer)
 		&ATank::DisableFasterMovement, timer, false);
 }
 
+
+/**
+ * After duration disable the players faster movement
+ */
 void ATank::DisableFasterMovement()
 {
 	PlayerMovementComponent->bHasFasterMovement = false;
@@ -134,6 +148,9 @@ void ATank::DisableFasterMovement()
 }
 
 
+/**
+ * Handle the players destruction and plays any sounds or effects
+ */
 void ATank::HandleDestruction()
 {
 	Super::HandleDestruction();
@@ -155,6 +172,10 @@ void ATank::HandleDestruction()
 	bIsAlive = false;
 }
 
+
+/**
+ * Enables the players shooting after a duration
+ */
 void ATank::EnableShooting()
 {
 	PlayerMovementComponent->bCanShoot = true;

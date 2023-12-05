@@ -59,6 +59,7 @@ void ABaseAI::Shoot()
 	}
 }
 
+
 void ABaseAI::LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed)
 {
 	//Get target location Mouse location - Current Location
@@ -132,6 +133,12 @@ void ABaseAI::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 }
 
+
+/**
+ * Increases the enemies status after every wave
+ * @param SpeedIncrement Value to increment the speed by
+ * @param FireRateDecrease Value to decrease the fire rate by
+ */
 void ABaseAI::IncreaseStats(const float SpeedIncrement, const float FireRateDecrease)
 {
 	//Increase enemy status after wave is completed
@@ -150,6 +157,15 @@ void ABaseAI::IncreaseStats(const float SpeedIncrement, const float FireRateDecr
 	}
 }
 
+
+/**
+ * Apply damage to the actor
+ * @param DamageAmount Value to damage the player by
+ * @param DamageEvent What type of damage it is
+ * @param EventInstigator Who instigated the damage
+ * @param DamageCauser Who caused the damage
+ * @return The damage value
+ */
 float ABaseAI::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, AController* EventInstigator,
                           AActor* DamageCauser)
 {
@@ -165,6 +181,10 @@ float ABaseAI::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, A
 	return DamageAmount;
 }
 
+
+/**
+ * Check if we can fire at the player
+ */
 void ABaseAI::CheckFireCondition()
 {
 	if (Tank)
@@ -179,6 +199,12 @@ void ABaseAI::CheckFireCondition()
 	}
 }
 
+
+/**
+ * Check if actor is in range
+ * @param ActorLocation Location of actor
+ * @return flag to say whether we can fire at the actor or not
+ */
 bool ABaseAI::IsActorInRange(const FVector& ActorLocation)
 {
 	const FVector towerCurrentLocation = GetActorLocation();
@@ -190,6 +216,10 @@ bool ABaseAI::IsActorInRange(const FVector& ActorLocation)
 	return Distance <= FireRange;
 }
 
+
+/**
+ * Reset fire condition timer
+ */
 void ABaseAI::ResetTimer()
 {
 	GetWorldTimerManager().ClearTimer(TimerHandle);
@@ -199,6 +229,10 @@ void ABaseAI::ResetTimer()
 	GetWorldTimerManager().SetTimer(TimerHandle, this, &ABaseAI::CheckFireCondition, FireRate, true);
 }
 
+
+/**
+ * Get player pawn and cast to tank
+ */
 void ABaseAI::GetPlayerPawn()
 {
 	Tank = Cast<ATank>(UGameplayStatics::GetPlayerPawn(this, 0));

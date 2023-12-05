@@ -8,6 +8,10 @@
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/Turret/Turret.h"
 
+
+/**
+ * Start timers and spawn in turrets
+ */
 void ATimeTrailsGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -17,7 +21,7 @@ void ATimeTrailsGameMode::BeginPlay()
 	GetWorldTimerManager().SetTimer(SpawnTurretsHandle,
 		this, &ATimeTrailsGameMode::CreateTurrets, .5f, false, 0.0);
 
-	//Set timer 
+	//Set global timer for how long the player takes to complete the level 
 	GetWorldTimerManager().SetTimer(
 		PlayerTimerHandle, this, &ATimeTrailsGameMode::GetTimer, TimerRate, true, 0.0);
 	
@@ -27,6 +31,10 @@ void ATimeTrailsGameMode::BeginPlay()
 
 }
 
+
+/**
+ * Get timer and set it in timer text to be displayed in the UI
+ */
 void ATimeTrailsGameMode::GetTimer()
 {
 	double Timer;
@@ -38,11 +46,19 @@ void ATimeTrailsGameMode::GetTimer()
 	TimerText = UKismetStringLibrary::TimeSecondsToString(Timer);
 }
 
+
+/**
+ * Stop the timer when the player finishes the level or dies
+ */
 void ATimeTrailsGameMode::StopTimer()
 {
 	GetWorldTimerManager().ClearTimer(PlayerTimerHandle);
 }
 
+
+/**
+ * Decrease turret count so we know when we have destroyed all turrets
+ */
 void ATimeTrailsGameMode::DecreaseTurretAmount()
 {
 	TurretAmount--;
@@ -54,6 +70,11 @@ void ATimeTrailsGameMode::DecreaseTurretAmount()
 	}
 }
 
+
+/**
+ * Ends the game and shows end game text
+ * @param bPlayerWon Flag to show if the player has won
+ */
 void ATimeTrailsGameMode::EndGame(bool bPlayerWon)
 {
 	//Game is over stop the timer
@@ -74,6 +95,10 @@ void ATimeTrailsGameMode::EndGame(bool bPlayerWon)
 	
 }
 
+
+/**
+ * Spawn turrets in level randomly between width and height
+ */
 void ATimeTrailsGameMode::CreateTurrets()
 {
 	FActorSpawnParameters SpawnParams;

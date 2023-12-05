@@ -20,6 +20,10 @@ AWaveGameMode::AWaveGameMode()
 
 }
 
+
+/**
+ * Gets all waves and power ups lengths
+ */
 void AWaveGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -40,6 +44,10 @@ void AWaveGameMode::Tick(float DeltaSeconds)
 	AllWavesComplete();
 }
 
+
+/**
+ * Checks to see if all waves have completed, if so start new wave
+ */
 void AWaveGameMode::AllWavesComplete()
 {
 	// Check if all wave spawners are complete
@@ -70,6 +78,10 @@ void AWaveGameMode::AllWavesComplete()
 	}
 }
 
+
+/**
+ * Gets all instances of the wave spawner and stores them
+ */
 void AWaveGameMode::GetAllWaveSpawner()
 {
 	TArray<AActor*> tempWaveSpawnerArr;
@@ -94,6 +106,10 @@ void AWaveGameMode::GetAllWaveSpawner()
 	UE_LOG(LogTemp, Warning, TEXT("Num of waves spawner: %d"), WaveSpawnerAmount);
 }
 
+
+/**
+ * Function that will end the game and display text for the game over screen
+ */
 void AWaveGameMode::EndGame()
 {
 	//Game is over, flag to show the GameOver Widget
@@ -108,6 +124,10 @@ void AWaveGameMode::EndGame()
 	
 }
 
+
+/**
+ * Increase player score
+ */
 void AWaveGameMode::IncreaseScore()
 {
 	PlayerScore++;
@@ -132,6 +152,12 @@ void AWaveGameMode::SpawnPowerUp(const FVector Location, const FRotator Rotation
 	}
 }
 
+/**
+ * Function that will spawn and possess super tank for a duration
+ * @param Tank Reference to current tank player is possessing
+ * @param SuperTankClass Class of the super tank
+ * @param duration How long the player will possess the tank for
+ */
 void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTankClass, float duration)
 {
 	//Assign tank to orignal tank
@@ -180,6 +206,11 @@ void AWaveGameMode::SpawnSuperTank(ATank* Tank, TSubclassOf<ASuperTank> SuperTan
 	
 }
 
+
+/**
+ * Spawns the original tank pawn at the location and rotation of the super tank
+ * Then destroys the super tank
+ */
 void AWaveGameMode::PossesOriginalTank()
 {
 	if (TankClass)
