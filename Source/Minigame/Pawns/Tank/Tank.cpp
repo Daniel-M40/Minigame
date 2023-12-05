@@ -9,6 +9,7 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Minigame/Components/TankComponents/HealthComponent.h"
 #include "Minigame/Components/TankComponents/PlayerMovementComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
@@ -102,11 +103,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
  */
 void ATank::IncreaseHealth(float healthValue)
 {
-	//if tank hasn't reached the max health value increase players health
-	if (Health < MaxHealth)
-	{
-		Health += healthValue;
-	}
+	HealthComponent->IncreaseHealth(healthValue);
 }
 
 

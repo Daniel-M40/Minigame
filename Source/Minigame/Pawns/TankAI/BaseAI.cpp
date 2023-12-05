@@ -5,6 +5,7 @@
 
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Components/TankComponents/HealthComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
 #include "Minigame/Pawns/Tank/Tank.h"
@@ -28,6 +29,9 @@ ABaseAI::ABaseAI()
 	//Projectile spawn point
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(BaseTurretMesh);
+
+	//Health Component
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 }
 
 // Called when the game starts or when spawned
@@ -170,13 +174,7 @@ float ABaseAI::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent, A
                           AActor* DamageCauser)
 {
 	//Subtract damage from health
-	Health -= DamageAmount;
-
-	//Check if actor has died
-	if (Health <= 0.f)
-	{
-		HandleDestruction();
-	}
+	HealthComponent->DecreaseHealth(DamageAmount);
 	
 	return DamageAmount;
 }

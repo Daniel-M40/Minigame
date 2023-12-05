@@ -39,6 +39,7 @@ private:
 
 	UPROPERTY(EditAnywhere, Category="Sound")
 	float DeathSoundPitch = 1.f;
+
 	
 protected:
 	//Actor Base Mesh
@@ -48,14 +49,7 @@ protected:
 	//Actor tower mesh
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* BaseTowerMesh;
-
-	//Health of the actor
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Total Health"))
-	float Health = 30.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Max Health"))
-	float MaxHealth = 30.f;
-
+	
 	
 	//Rotation speed of the turret
 	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
@@ -91,6 +85,8 @@ public:
 	UPROPERTY(EditAnywhere, Category="Movement")
 	float Range = 500.f;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Health")
+	class UHealthComponent* HealthComponent;
 	
 #pragma endregion
 
@@ -98,6 +94,7 @@ public:
 	// Sets default values for this character's properties
 	ABaseAI();
 	
+	virtual void HandleDestruction();
 
 protected:
 	// Called when the game starts or when spawned
@@ -109,7 +106,7 @@ protected:
 	//Make turret mesh rotate towards a point at a rotation speed
 	void LookAtTarget(const FVector& LookAtTarget, const float RotateSpeed = 10.f);
 
-	virtual void HandleDestruction();
+	
 
 public:
 	// Called every frame

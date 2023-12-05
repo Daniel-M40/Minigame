@@ -50,14 +50,6 @@ protected:
 	//Actor tower mesh
 	UPROPERTY(EditAnywhere, Category="Mesh")
 	UStaticMeshComponent* BaseTowerMesh;
-
-	//Health of the actor
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Total Health"))
-	float Health = 30.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Properties", meta=(DisplayName="Actor Max Health"))
-	float MaxHealth = 30.f;
-
 	
 	//Rotation speed of the turret
 	UPROPERTY(EditAnywhere, Category="Movement", meta=(DisplayName="Turrent Roation Speed"))
@@ -68,8 +60,9 @@ protected:
 	
 	class AWaveGameMode* WaveModeGM;
 
-	UPROPERTY(EditAnywhere, Category="Cheats")
-	bool bIsInvincible = false;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Health")
+	class UHealthComponent* HealthComponent;
 	
 #pragma endregion
 

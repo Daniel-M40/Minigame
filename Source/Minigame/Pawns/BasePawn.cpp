@@ -5,6 +5,7 @@
 
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Minigame/Components/TankComponents/HealthComponent.h"
 #include "Minigame/GameModes/TimeTrailsGameMode.h"
 #include "Minigame/GameModes/WaveGameMode.h"
 #include "Minigame/Projectile/Projectile.h"
@@ -33,7 +34,8 @@ ABasePawn::ABasePawn()
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(BaseTurretMesh);
 
-	
+	//Health Component
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 	
 }
@@ -77,12 +79,12 @@ void ABasePawn::LookAtTarget(const FVector& LookAtTarget, const float RotateSpee
 
 void ABasePawn::SetHealth(float val)
 {
-	Health = val;
+	HealthComponent->SetHealth(val);
 }
 
 float ABasePawn::GetHealth()
 {
-	return Health;
+	return HealthComponent->GetHealth();;
 }
 
 
@@ -117,13 +119,7 @@ float ABasePawn::TakeDamage(float DamageAmount, FDamageEvent const& DamageEvent,
 	AActor* DamageCauser)
 {
 	//Subtract damage from health
-	Health -= DamageAmount;
-
-	//Check if actor has died
-	if (Health <= 0.f)
-	{
-		HandleDestruction();
-	}
+	HealthComponent->DecreaseHealth(DamageAmount);
 	
 	return DamageAmount;
 }
