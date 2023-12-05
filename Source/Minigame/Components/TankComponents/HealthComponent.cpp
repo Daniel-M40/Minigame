@@ -58,6 +58,7 @@ void UHealthComponent::IncreaseHealth(float healthIncrement)
 	if (CurrentHealth < MaxHealth)
 	{
 		CurrentHealth += healthIncrement;
+		UE_LOG(LogTemp, Warning, TEXT("New health val: %f"), CurrentHealth);
 	}
 }
 
