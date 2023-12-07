@@ -9,6 +9,7 @@
 #include "Minigame/Pawns/BasePawn.h"
 #include "Minigame/Pawns/Tank/Tank.h"
 #include "Minigame/Pawns/TankAI/BaseAI.h"
+#include "Minigame/Pawns/Turret/Turret.h"
 
 
 // Sets default values for this component's properties
@@ -67,6 +68,7 @@ void UHealthComponent::DecreaseHealth(float damageDelt)
 	AActor* owner = GetOwner();
 	
 	ATank* tank = Cast<ATank>(owner);
+	ATurret* turret = Cast<ATurret>(owner);
 	ABaseAI* tankAI = Cast<ABaseAI>(owner);
 
 	//Deal damage
@@ -78,6 +80,10 @@ void UHealthComponent::DecreaseHealth(float damageDelt)
 		if (tankAI)
 		{
 			tankAI->HandleDestruction();
+		}
+		else if (turret)
+		{
+			turret->HandleDestruction();
 		}
 		else if (tank)
 		{
